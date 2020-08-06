@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Boxes</string>
+
+    <string name="text_main_day">Are you enjoying your chastity?</string>
+    <string name="text_main_since">You have been locked since</string>
+    <string name="text_main_start">07:22:49 on\n27 January 2020</string>
+    <string name="text_main_open">You may open\nthe next box in...</string>
+    <string name="button_main_open">15:49:17</string>
+
+    <string name="text_box_unopened">\u0020\u0020\?\?</string>
+    <string name="text_box_1day">\u0020_1_</string>
+    <string name="text_box_2day">\u0020_2_</string>
+    <string name="text_box_3day">\u0020_3_</string>
+    <string name="text_box_4day">\u0020_4_</string>
+    <string name="text_box_key">key</string>
+
+    <string name="text_newgame_thought">Hmmm, you\'re not locked.\nYou should prepare and\nstart a new game.</string>
+    <string name="checkbox_newgame_locked">i\'m locked and ready</string>
+    <string name="button_newgame_start">s t a r t</string>
+
+    <string name="text_openbox_thought">OK, let\'s open the next box...</string>
+    <string name="text_openbox_result">It contains a... 4, haha</string>
+    <string name="button_openbox_back">b a c k</string>
+</resources>
