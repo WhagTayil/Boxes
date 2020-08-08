@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     // key for parameter passed to Open Box Activity
     public static final String BOX_CONTENTS = "com.example.boxes.BOX_CONTENTS";
 
+    private static final int chastityTimeUnit = Calendar.DATE;
+    private static final int chastityTimeDuration = 1;
+    //private static final int chastityTimeUnit = Calendar.SECOND;
+    //private static final int chastityTimeDuration = 30;
 
     private static int[] boxes = {3, 2, 4, 3, 1, 2, 1, 0};
     private static Calendar nextBoxDate = Calendar.getInstance();
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonMainOpen = null;
 
 
+    private static final String LOGTAG = "BOXES:MyActivity";
+
     ///////////////////////////////////////////////////////////////
     // Background timer https://stackoverflow.com/questions/4597690/how-to-set-timer-in-android
     Handler h2 = new Handler();
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 long minutesInMilli = secondsInMilli * 60;
                 long hoursInMilli = minutesInMilli * 60;
 
-                String s;
+                String s = "00:00:00\no p e n";
                 if (deltaMillis > secondsInMilli) {
                     long hours = deltaMillis / hoursInMilli;
                     deltaMillis = deltaMillis % hoursInMilli;
@@ -71,9 +77,14 @@ public class MainActivity extends AppCompatActivity {
                     long seconds = deltaMillis / secondsInMilli;
                     s = String.format("%02d:%02d:%02d", hours, minutes, seconds);
                     h2.postDelayed(this, 500);
+
+                    if (BuildConfig.DEBUG)
+                        Log.v(LOGTAG, " launch bg runnable from runnable");
                 } else {
                     buttonMainOpen.setEnabled(true);
-                    s = "00:00:00\no p e n";
+
+                    if (BuildConfig.DEBUG)
+                        Log.v(LOGTAG, " no more bg runnable");
                 }
                 buttonMainOpen.setText(s);
             }
@@ -85,15 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
     ///////////////////////////////////////////////////////////////
     // Utilty functions to update UI elements
+    private String getTimeString(Calendar calendar) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return formatter.format(calendar.getTime());
+    }
+
+    private String getDateString(Calendar calendar) {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy");
+        return formatter.format(calendar.getTime());
+    }
+
     private void setStartDate() {
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat("HH:mm:ss");
-        String strTime = formatter.format(startDate.getTime());
-        formatter = new SimpleDateFormat("EEE, d MMM yyyy");
-        String strDate = formatter.format(startDate.getTime());
-
-        String s = strTime + " on\n" + strDate;
-
+        String s = getTimeString(startDate) + " on\n" + getDateString(startDate);
         textViewMainStart.setText(s);
     }
 
@@ -132,11 +146,25 @@ public class MainActivity extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////
 
 
+    private void logBoxData() {
+        if (BuildConfig.DEBUG) {
+            StringBuilder s = new StringBuilder("boxes:- " + boxes[0]);
+            for (int i=1; i < boxes.length; ++i)
+                s.append(", ").append(boxes[i]);
+            s.append(". (").append(numBoxesOpen).append(" open)");
+            Log.v(LOGTAG, s.toString());
+            Log.v(LOGTAG, "Start - " + getTimeString(startDate) + " " + getDateString(startDate));
+            Log.v(LOGTAG, " Next - " + getTimeString(nextBoxDate) + " " + getDateString(nextBoxDate));
+        }
+    }
+
+
     ///////////////////////////////////////////////////////////////
     // Persistence serialization game state data
     private final String saveDataFileName = "svdt";
 
     private void readSaveData() {
+        Log.d(LOGTAG, "readSaveData()");
         Context context = getApplicationContext();
 
         try {
@@ -156,22 +184,17 @@ public class MainActivity extends AppCompatActivity {
             fis.close();
             ois.close();
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
-            System.out.print(" - Boxes WARN ignore save-state read failure\n");
+            Log.d(LOGTAG, "readSaveData() FileNotFound", e);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.print(" - Boxes readSaveData()\n");
-        System.out.printf("  - boxes %d", boxes[0]);
-        for (int i=1; i < boxes.length; ++i) {
-            System.out.printf(", %d", boxes[i]);
-        }
-        System.out.print("\n");
-        System.out.printf("  - num open = %d\n", numBoxesOpen);
+        //logBoxData();
     }
 
     private void writeSaveData() {
+        Log.d(LOGTAG, "writeSaveData()");
+
         Context context = getApplicationContext();
 
         try {
@@ -192,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //logBoxData();
     }
     // ^ Save data (game state)
     ///////////////////////////////////////////////////////////////
@@ -201,24 +226,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        System.out.print(" - Boxes onCreate()\n");
+        Log.d(LOGTAG, "onCreate()");
 
         for (int i=0; i < boxes.length; ++i)
             textViewBoxes[i] = findViewById(boxLabelIDs[i]);
         textViewMainOpen = findViewById(R.id.textViewMainOpen);
         textViewMainStart = findViewById(R.id.textViewMainStart);
         buttonMainOpen = findViewById(R.id.buttonMainOpen);
-
-        // TODO: only if doesn't exist
-        //writeSaveData();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        System.out.print(" - Boxes onStart()\n");
+        Log.d(LOGTAG, "onStart()");
 
         readSaveData();
 
@@ -232,12 +252,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 898);
                 break;
             case PLAY:
-                buttonMainOpen.setEnabled(false);
                 setStartDate();
+                buttonMainOpen.setEnabled(false);
                 setBoxStrings();
                 h2.postDelayed(run, 0);
+                if (BuildConfig.DEBUG)
+                    Log.v(LOGTAG, " launch bg runnable from onStart()");
                 break;
             case OPEN:
+                // show open screen
                 intent = new Intent(this, OpenBoxActivity.class);
                 intent.putExtra(BOX_CONTENTS, boxes[numBoxesOpen]);
                 startActivityForResult(intent, 897);
@@ -245,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
             case FINISH:
                 // TODO: new activity for game over screen
                 setStartDate();
-                setBoxStrings();
                 textViewMainOpen.setText("");
                 buttonMainOpen.setText("r e- s t a r t");
                 break;
@@ -255,10 +277,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-        System.out.print(" - Boxes onStop()\n");
+        Log.d(LOGTAG, "onStop()");
 
         h2.removeCallbacks(run);
+        if (BuildConfig.DEBUG)
+            Log.v(LOGTAG, " remove runnable callbacks");
 
         writeSaveData();
     }
@@ -267,7 +290,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        System.out.printf(" - Boxes onActivityResult(req = %d, res = %d)\n", requestCode, resultCode);
+        String s = "onActivityResult(req = " + requestCode + ", res = " + resultCode + ")";
+        Log.d(LOGTAG, s);
 
         if (requestCode == 898 && resultCode == RESULT_FIRST_USER + 8000) {
             // Success return from NewGameActivity
@@ -282,40 +306,37 @@ public class MainActivity extends AppCompatActivity {
                 boxes[index] = boxes[i];
                 boxes[i] = a;
             }
-
-            System.out.printf("  - shuffle to %d", boxes[0]);
-            for (int i=1; i < boxes.length; ++i) {
-                System.out.printf(", %d", boxes[i]);
-            }
-            System.out.print("\n");
-
             numBoxesOpen = 0;
-            //boxes[2] = 0;             // place key to test end game scenario
-            setBoxStrings();
 
             startDate = Calendar.getInstance();
-            setStartDate();
             nextBoxDate = Calendar.getInstance();
-            nextBoxDate.add(Calendar.DATE, 1);          // WAIT 1 day
-            //nextBoxDate.add(Calendar.MINUTE, 1);
+            nextBoxDate.add(chastityTimeUnit, chastityTimeDuration);
+
+            setStartDate();
+            textViewMainOpen.setText(R.string.text_main_open);
+            setBoxStrings();
 
             writeSaveData();
-        } else if (requestCode == 897 && resultCode == RESULT_FIRST_USER + 8000) {
+        }
+        else if (requestCode == 897 && resultCode == RESULT_FIRST_USER + 8000) {
             // Success return from OpenBoxActivity
             if (boxes[numBoxesOpen] == 0) {
                 h2.removeCallbacks(run);
+                if (BuildConfig.DEBUG)
+                    Log.v(LOGTAG, " remove runnable callbacks [KEY]");
 
                 // TODO: new activity for game over screen
                 currentState = GameState.FINISH;
                 textViewMainOpen.setText("");
                 buttonMainOpen.setText("r e-s t a r t");
-            } else {
+            }
+            else {
                 currentState = GameState.PLAY;
                 nextBoxDate = Calendar.getInstance();
-                nextBoxDate.add(Calendar.DATE, boxes[numBoxesOpen]);          // WAIT n days
-                //nextBoxDate.add(Calendar.MINUTE, boxes[numBoxesOpen]);
+                nextBoxDate.add(chastityTimeUnit, chastityTimeDuration * boxes[numBoxesOpen]);
                 buttonMainOpen.setEnabled(false);
             }
+
             ++numBoxesOpen;
             setBoxStrings();
             writeSaveData();
@@ -323,21 +344,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonOpen(View view) {
-        System.out.print(" - Boxes click\n");
+        Log.d(LOGTAG, "onButtonOpen()");
 
         if (currentState == GameState.PLAY) {
-            currentState = GameState.OPEN;
-            writeSaveData();
             Intent intent = new Intent(this, OpenBoxActivity.class);
             intent.putExtra(BOX_CONTENTS, boxes[numBoxesOpen]);
             startActivityForResult(intent, 897);
         } else if (currentState == GameState.FINISH) {
-            currentState = GameState.START;
-            writeSaveData();
             Intent intent = new Intent(this, NewGameActivity.class);
             startActivityForResult(intent, 898);
         } else {
-            System.out.print("  - weird state\n");
+            Log.w(LOGTAG, "  - weird state");
         }
     }
 }

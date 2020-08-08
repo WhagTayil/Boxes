@@ -7,11 +7,11 @@
     <string name="text_main_open">You may open\nthe next box in...</string>
     <string name="button_main_open">15:49:17</string>
 
-    <string name="text_box_unopened">\u0020\u0020\?\?</string>
-    <string name="text_box_1day">\u0020_1_</string>
-    <string name="text_box_2day">\u0020_2_</string>
-    <string name="text_box_3day">\u0020_3_</string>
-    <string name="text_box_4day">\u0020_4_</string>
+    <string name="text_box_unopened">\?</string>
+    <string name="text_box_1day">1</string>
+    <string name="text_box_2day">2</string>
+    <string name="text_box_3day">3</string>
+    <string name="text_box_4day">4</string>
     <string name="text_box_key">key</string>
 
     <string name="text_newgame_thought">Hmmm, you\'re not locked.\nYou should prepare and\nstart a new game.</string>
@@ -20,5 +20,5 @@
 
     <string name="text_openbox_thought">OK, let\'s open the next box...</string>
     <string name="text_openbox_result">It contains a... 4, haha</string>
-    <string name="button_openbox_back">b a c k</string>
+    <string name="button_openbox_back">continue</string>
 </resources>
