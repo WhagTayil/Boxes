@@ -26,16 +26,16 @@ public class MainActivity extends AppCompatActivity {
     // key for parameter passed to Open Box Activity
     public static final String BOX_CONTENTS = "com.example.boxes.BOX_CONTENTS";
 
-    private static final int chastityTimeUnit = Calendar.DATE;
-    private static final int chastityTimeDuration = 1;
-    //private static final int chastityTimeUnit = Calendar.SECOND;
-    //private static final int chastityTimeDuration = 30;
+    //private static final int chastityTimeUnit = Calendar.DATE;
+    //private static final int chastityTimeDuration = 1;
+    private static final int chastityTimeUnit = Calendar.SECOND;
+    private static final int chastityTimeDuration = 30;
 
     private static int[] boxes = {3, 2, 4, 3, 1, 2, 1, 0};
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
     private static int numBoxesOpen = 0;
-    enum GameState { VIRGIN, START, PLAY, OPEN, FINISH }
+    enum GameState { VIRGIN, START, PLAY, FINISH }
     private static GameState currentState = GameState.VIRGIN;
 
 
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     s = String.format("%02d:%02d:%02d", hours, minutes, seconds);
                     h2.postDelayed(this, 500);
 
-                    if (BuildConfig.DEBUG)
-                        Log.v(LOGTAG, " launch bg runnable from runnable");
+                    //if (BuildConfig.DEBUG)
+                    //    Log.v(LOGTAG, " launch bg runnable from runnable");
                 } else {
                     buttonMainOpen.setEnabled(true);
 
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             Log.v(LOGTAG, s.toString());
             Log.v(LOGTAG, "Start - " + getTimeString(startDate) + " " + getDateString(startDate));
             Log.v(LOGTAG, " Next - " + getTimeString(nextBoxDate) + " " + getDateString(nextBoxDate));
+            Log.v(LOGTAG, "State - " + currentState.name());
         }
     }
 
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //logBoxData();
+        logBoxData();
     }
 
     private void writeSaveData() {
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //logBoxData();
+        logBoxData();
     }
     // ^ Save data (game state)
     ///////////////////////////////////////////////////////////////
@@ -245,7 +246,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         switch(currentState) {
             case VIRGIN:
-                // TODO: instructions
+                // show instructions start screen
+                intent = new Intent(this, WelcomeActivity.class);
+                startActivityForResult(intent, 898);
+                break;
             case START:
                 // show start screen
                 intent = new Intent(this, NewGameActivity.class);
@@ -258,12 +262,6 @@ public class MainActivity extends AppCompatActivity {
                 h2.postDelayed(run, 0);
                 if (BuildConfig.DEBUG)
                     Log.v(LOGTAG, " launch bg runnable from onStart()");
-                break;
-            case OPEN:
-                // show open screen
-                intent = new Intent(this, OpenBoxActivity.class);
-                intent.putExtra(BOX_CONTENTS, boxes[numBoxesOpen]);
-                startActivityForResult(intent, 897);
                 break;
             case FINISH:
                 // TODO: new activity for game over screen
@@ -294,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOGTAG, s);
 
         if (requestCode == 898 && resultCode == RESULT_FIRST_USER + 8000) {
-            // Success return from NewGameActivity
+            // Success return from NewGameActivity or WelcomeActivity
             currentState = GameState.PLAY;
 
             // Shuffle boxes
@@ -325,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
                 if (BuildConfig.DEBUG)
                     Log.v(LOGTAG, " remove runnable callbacks [KEY]");
 
-                // TODO: new activity for game over screen
                 currentState = GameState.FINISH;
                 textViewMainOpen.setText("");
                 buttonMainOpen.setText("r e-s t a r t");
