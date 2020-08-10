@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
     // key for parameter passed to Open Box Activity
     public static final String BOX_CONTENTS = "com.example.boxes.BOX_CONTENTS";
 
-    //private static final int chastityTimeUnit = Calendar.DATE;
-    //private static final int chastityTimeDuration = 1;
-    private static final int chastityTimeUnit = Calendar.SECOND;
-    private static final int chastityTimeDuration = 30;
+    private static final int chastityTimeUnit = Calendar.DATE;
+    private static final int chastityTimeDuration = 1;
+    //private static final int chastityTimeUnit = Calendar.SECOND;
+    //private static final int chastityTimeDuration = 30;
 
     private static int[] boxes = {3, 2, 4, 3, 1, 2, 1, 0};
     private static Calendar nextBoxDate = Calendar.getInstance();
