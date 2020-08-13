@@ -4,8 +4,11 @@
     <string name="text_main_day">Are you enjoying your chastity?</string>
     <string name="text_main_since">You have been locked since</string>
     <string name="text_main_start">07:22:49 on\n27 January 2020</string>
-    <string name="text_main_open">You may open\nthe next box in...</string>
-    <string name="button_main_open">15:49:17</string>
+    <string name="text_main_open_in">You may open\nthe next box in...</string>
+    <string name="text_main_open_now">You may open\nthe next box now</string>
+    <string name="button_main_open_in">15:49:17</string>
+    <string name="button_main_open_now">o p e n</string>
+    <string name="button_main_open_restart">r e- s t a r t</string>
 
     <string name="text_box_unopened">\?</string>
     <string name="text_box_1day">1</string>
@@ -15,7 +18,7 @@
     <string name="text_box_key">key</string>
 
     <string name="text_welcome_greet">Welcome to Mystery Box game!</string>
-    <string name="text_welcome_explain">I wrote down numbers and put one\nin each of 7 boxes. (There are two\n1s, two 2s, two 3s and a 4) Your key\ngoes in the 8th box. After a day you\nmay open the first box. If it contains\na number you will wait that many\ndays before opening the next box.\nGood luck.</string>
+    <string name="text_welcome_explain">I wrote down numbers and put one\nin each of 7 boxes. (There are two\n1s, two 2s, two 3s and a 4) Your key\nis in another box. After a day you\nmay open your first box. If it contains\na number you will wait that many\ndays before opening the next box.\nGood luck.</string>
 
     <string name="text_newgame_thought">Hmmm, you\'re not locked.\nYou should prepare and\nstart a new game.</string>
     <string name="checkbox_newgame_locked">i\'m locked and ready</string>

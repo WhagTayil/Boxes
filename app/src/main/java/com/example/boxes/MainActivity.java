@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 long minutesInMilli = secondsInMilli * 60;
                 long hoursInMilli = minutesInMilli * 60;
 
-                String s = "00:00:00\no p e n";
+                String s = getString(R.string.button_main_open_now);
                 if (deltaMillis > secondsInMilli) {
                     long hours = deltaMillis / hoursInMilli;
                     deltaMillis = deltaMillis % hoursInMilli;
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     //if (BuildConfig.DEBUG)
                     //    Log.v(LOGTAG, " launch bg runnable from runnable");
                 } else {
+                    textViewMainOpen.setText(R.string.text_main_open_now);
                     buttonMainOpen.setEnabled(true);
 
                     if (BuildConfig.DEBUG)
@@ -264,10 +265,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(LOGTAG, " launch bg runnable from onStart()");
                 break;
             case FINISH:
-                // TODO: new activity for game over screen
                 setStartDate();
                 textViewMainOpen.setText("");
-                buttonMainOpen.setText("r e- s t a r t");
+                buttonMainOpen.setText(R.string.button_main_open_restart);
+                setBoxStrings();
                 break;
         }
     }
@@ -291,6 +292,8 @@ public class MainActivity extends AppCompatActivity {
         String s = "onActivityResult(req = " + requestCode + ", res = " + resultCode + ")";
         Log.d(LOGTAG, s);
 
+        textViewMainOpen.setText(R.string.text_main_open_in);
+
         if (requestCode == 898 && resultCode == RESULT_FIRST_USER + 8000) {
             // Success return from NewGameActivity or WelcomeActivity
             currentState = GameState.PLAY;
@@ -311,7 +314,6 @@ public class MainActivity extends AppCompatActivity {
             nextBoxDate.add(chastityTimeUnit, chastityTimeDuration);
 
             setStartDate();
-            textViewMainOpen.setText(R.string.text_main_open);
             setBoxStrings();
 
             writeSaveData();
@@ -325,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
 
                 currentState = GameState.FINISH;
                 textViewMainOpen.setText("");
-                buttonMainOpen.setText("r e-s t a r t");
+                buttonMainOpen.setText(R.string.button_main_open_restart);
             }
             else {
                 currentState = GameState.PLAY;
