@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OpenBoxActivity">
+    tools:context=".NewGameFragment">
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/text_openbox_thought"
+        android:text="@string/text_newgame_thought"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,27 +19,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonOpenBoxBack"
+        android:id="@+id/buttonNewGameStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:onClick="onButtonBack"
-        android:text="@string/button_openbox_back"
+        android:onClick="onButtonReady"
+        android:text="@string/button_newgame_start"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOpenBoxResult" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxNewGameLocked" />
 
-    <TextView
-        android:id="@+id/textViewOpenBoxResult"
+    <CheckBox
+        android:id="@+id/checkBoxNewGameLocked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/text_openbox_result"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:layout_marginTop="32dp"
+        android:text="@string/checkbox_newgame_locked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
