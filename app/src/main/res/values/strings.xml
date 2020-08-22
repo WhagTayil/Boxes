@@ -29,6 +29,6 @@
 
     <string name="text_openbox_thought">OK, let\'s open the next box…</string>
     <string name="text_openbox_result">It contains a… 5, haha</string>
-    <string name="button_openbox_back">continue</string>
+    <string name="button_openbox_continue">continue</string>
 
 </resources>

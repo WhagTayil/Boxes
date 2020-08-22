@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -29,13 +30,6 @@ public class OpenBoxFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment OpenBoxFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static OpenBoxFragment newInstance(int boxContents) {
         OpenBoxFragment fragment = new OpenBoxFragment();
         Bundle args = new Bundle();
@@ -74,5 +68,22 @@ public class OpenBoxFragment extends Fragment {
 
         TextView textView = getActivity().findViewById(R.id.textViewOpenBoxResult);
         textView.setText(s);
+
+        Button buttonContinue = getActivity().findViewById(R.id.buttonOpenBoxContinue);
+        buttonContinue.setOnClickListener(onClickButtonContinue);
+    }
+
+    // This listener is a trivial demonstration of catching a UI event at Fragment level.
+    // It simply calls a handler in the parent Activity.
+    public final View.OnClickListener onClickButtonContinue = new View.OnClickListener() {
+        public void onClick(View v) {
+            onButtonContinue(v);
+        }
+    };
+    public void onButtonContinue(View v) {
+        Log.d(LOGTAG, "onButtonContinue()");
+
+        MainActivity activity = (MainActivity) getActivity();
+        activity.onButtonOpenContinue(v);
     }
 }
