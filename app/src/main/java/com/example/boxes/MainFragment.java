@@ -46,6 +46,10 @@ public class MainFragment extends Fragment {
             R.id.textView5, R.id.textView6, R.id.textView7, R.id.textView8
     };
     private final TextView[] textViewBoxes = {null, null, null, null, null, null, null, null};
+    private final String[] boxLabels = {null, null, null, null, null};
+    private String boxLabelUnopened;
+    private int colorKeyBackground;
+
     private TextView textViewMainOpen = null;
     private TextView textViewMainStart = null;
     private Button buttonMainOpen = null;
@@ -66,21 +70,18 @@ public class MainFragment extends Fragment {
     }
 
     private void setBoxStrings() {
-        String s;
         int numBoxesOpen = mViewModel.getNumBoxesOpen();
         int i = 0;
         int contents;
         for (; i < numBoxesOpen; ++i) {
             contents = mViewModel.peekBox(i);
-            s = Integer.toString(contents);
-            if (contents == 0) s = "key";
-
-            textViewBoxes[i].setText(s);
+            textViewBoxes[i].setText(boxLabels[contents]);
+            if (contents == 0)
+                textViewBoxes[i].setBackgroundColor(colorKeyBackground);
         }
 
-        s = getString(R.string.text_box_unopened);
         for (; i < mViewModel.getNumBoxes(); ++i) {
-            textViewBoxes[i].setText(s);
+            textViewBoxes[i].setText(boxLabelUnopened);
         }
     }
     // ^ UI update utilities
@@ -139,6 +140,15 @@ public class MainFragment extends Fragment {
 
         textViewMainDay = activity.findViewById(R.id.textViewMainDay);
         textViewMainSince = activity.findViewById(R.id.textViewMainSince);
+
+        boxLabelUnopened = activity.getString(R.string.text_box_unopened);
+        boxLabels[0] = activity.getString(R.string.text_box_key);
+        boxLabels[1] = activity.getString(R.string.text_box_1day);
+        boxLabels[2] = activity.getString(R.string.text_box_2day);
+        boxLabels[3] = activity.getString(R.string.text_box_3day);
+        boxLabels[4] = activity.getString(R.string.text_box_4day);
+
+        colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
     }
 
     @Override
