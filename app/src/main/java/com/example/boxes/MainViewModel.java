@@ -20,7 +20,7 @@ public class MainViewModel extends ViewModel implements Parcelable {
     private static final int chastityTimeUnit = Calendar.SECOND;    // Calendar.DATE or Calendar.SECOND
     private static final int chastityTimeDuration = 10;             //      1        or     30
 
-    private static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 0};
+    public static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 0};
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
     private static int numBoxesOpen = 0;

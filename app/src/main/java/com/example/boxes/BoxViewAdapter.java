@@ -8,15 +8,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHolder> {
     private static final String LOGTAG = "BOXES:BoxViewAdapter";
 
-    private List<Integer> mBoxes;
+    private int[] mBoxes;
     private int mNumOpen;
 
-    public BoxViewAdapter(List<Integer> boxes, int numOpen) {
+    public BoxViewAdapter(int[] boxes, int numOpen) {
         mBoxes = boxes;
         mNumOpen = numOpen;
 
@@ -38,13 +36,13 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
 
         String s = "?";
         if(position < mNumOpen)
-            s = Integer.toString(mBoxes.get(position));
+            s = Integer.toString(mBoxes[position]);
         holder.mContentView.setText(s);
     }
 
     @Override
     public int getItemCount() {
-        return mBoxes.size();
+        return mBoxes.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,19 +61,3 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
         }
     }
 }
-
-
-/*
-class BoxItem {
-    public final String content;
-
-    public BoxItem(String content) {
-        this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        return content;
-    }
-}
-*/

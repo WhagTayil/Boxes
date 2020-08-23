@@ -72,7 +72,6 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
 
 
-
     ///////////////////////////////////////////////////////////////
     // Utilty functions to update UI elements
     private void setStartDate() {
@@ -138,7 +137,6 @@ public class MainFragment extends Fragment {
     // ^ Background "thread"
     ///////////////////////////////////////////////////////////////
 
-    List<Integer> boxes;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -168,12 +166,7 @@ public class MainFragment extends Fragment {
         colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
 */
 
-        boxes = new ArrayList<Integer>();
-        for (int i = 0; i < 15; ++i) {
-            boxes.add(mViewModel.peekBox(i));
-        }
-        BoxViewAdapter adapter = new BoxViewAdapter(boxes, mViewModel.getNumBoxesOpen());
-
+        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel.boxes, mViewModel.getNumBoxesOpen());
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
