@@ -128,13 +128,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.popBackStack();
     }
 
-    public final View.OnClickListener onClickButtonOpen = new View.OnClickListener() {
-        public void onClick(View v) {
-            onButtonOpen(v);
-        }
-    };
-    public void onButtonOpen(View v) {
-        Log.d(LOGTAG, "onButtonOpen()");
+    public void onButtonMainOpen(View v) {
+        Log.d(LOGTAG, "onButtonMainOpen()");
 
         int boxContents = mViewModel.peekNextBox();
         OpenBoxFragment fragment = new OpenBoxFragment();
@@ -159,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.popBackStack();
     }
 
-    public final View.OnClickListener onClickButtonRestart = new View.OnClickListener() {
-        public void onClick(View v) { onButtonRestart(v); }
+    public final View.OnClickListener onClickButtonMainRestart = new View.OnClickListener() {
+        public void onClick(View v) { onButtonMainRestart(v); }
     };
-    public void onButtonRestart(View view) {
-        Log.d(LOGTAG, "onButtonRestart()");
+    public void onButtonMainRestart(View view) {
+        Log.d(LOGTAG, "onButtonMainRestart()");
 
         showStartScreen();
     }

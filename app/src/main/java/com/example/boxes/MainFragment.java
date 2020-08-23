@@ -1,5 +1,8 @@
 package com.example.boxes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,14 +45,14 @@ public class MainFragment extends Fragment {
 
     private static final String LOGTAG = "BOXES:MainFragment";
 
+    private final String[] boxLabels = {null, null, null, null, null};
+    private String boxLabelUnopened;
+    private int colorKeyBackground;
     private static final int[] boxLabelIDs = {
             R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4,
             R.id.textView5, R.id.textView6, R.id.textView7, R.id.textView8
     };
     private final TextView[] textViewBoxes = {null, null, null, null, null, null, null, null};
-    private final String[] boxLabels = {null, null, null, null, null};
-    private String boxLabelUnopened;
-    private int colorKeyBackground;
 
     private TextView textViewMainOpen = null;
     private TextView textViewMainStart = null;
@@ -158,7 +162,6 @@ public class MainFragment extends Fragment {
 
         MainActivity activity = (MainActivity) getActivity();
 
-
         switch (mViewModel.getState()) {
             case VIRGIN:
                 activity.showInstructions();
@@ -168,7 +171,7 @@ public class MainFragment extends Fragment {
                 break;
             case PLAY:
                 buttonMainOpen.setEnabled(false);
-                buttonMainOpen.setOnClickListener(activity.onClickButtonOpen);
+                buttonMainOpen.setOnClickListener(onClickButtonOpen);
                 setStartDate();
                 setBoxStrings();
 
@@ -182,7 +185,7 @@ public class MainFragment extends Fragment {
                 textViewMainOpen.setText(R.string.text_main_restart);
                 buttonMainOpen.setText(R.string.button_main_open_restart);
                 buttonMainOpen.setEnabled(true);
-                buttonMainOpen.setOnClickListener(activity.onClickButtonRestart);
+                buttonMainOpen.setOnClickListener(activity.onClickButtonMainRestart);
                 setStartDate();
                 setBoxStrings();
                 break;
@@ -195,8 +198,49 @@ public class MainFragment extends Fragment {
 
         Log.d(LOGTAG, "onStop()");
 
+        animation.removeAllListeners();
+        animation.cancel();
+
         handler.removeCallbacks(run);
         if (BuildConfig.DEBUG)
             Log.v(LOGTAG, " remove runnable callbacks in onStop()");
+    }
+
+
+    ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
+
+    public final View.OnClickListener onClickButtonOpen = new View.OnClickListener() {
+        public void onClick(View v) {
+            onButtonOpen(v);
+        }
+    };
+    public void onButtonOpen(View v) {
+        buttonMainOpen.setEnabled(false);
+        buttonMainOpen.setVisibility(View.INVISIBLE);
+        Log.d(LOGTAG, "onButtonOpen()");
+
+        final TextView textView = textViewBoxes[mViewModel.getNumBoxesOpen()];
+
+        animation.setDuration(3000);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                float animatedValue = (float)updatedAnimation.getAnimatedValue();
+                textView.setAlpha(animatedValue);
+            }
+        });
+        animation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                Log.d(LOGTAG, " anim end");
+
+                MainActivity activity = (MainActivity) getActivity();
+                activity.onButtonMainOpen(buttonMainOpen);
+            }
+        });
+        animation.start();
     }
 }
