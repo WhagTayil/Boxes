@@ -1,8 +1,5 @@
 package com.example.boxes;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,13 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -47,19 +40,7 @@ public class MainFragment extends Fragment {
     }
 
 
-
     private static final String LOGTAG = "BOXES:MainFragment";
-
-/*
-    private final String[] boxLabels = {null, null, null, null, null};
-    private String boxLabelUnopened;
-    private int colorKeyBackground;
-    private static final int[] boxLabelIDs = {
-            R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4,
-            R.id.textView5, R.id.textView6, R.id.textView7, R.id.textView8
-    };
-    private final TextView[] textViewBoxes = {null, null, null, null, null, null, null, null};
-*/
 
     private TextView textViewMainOpen = null;
     private TextView textViewMainStart = null;
@@ -68,36 +49,8 @@ public class MainFragment extends Fragment {
     private TextView textViewMainDay = null;
     private TextView textViewMainSince = null;
 
-
     private MainViewModel mViewModel;
 
-
-    ///////////////////////////////////////////////////////////////
-    // Utilty functions to update UI elements
-    private void setStartDate() {
-        String s = mViewModel.getStartTime() + " on\n" + mViewModel.getStartDate();
-        textViewMainStart.setText(s);
-    }
-
-    private void setBoxStrings() {
-/*
-        int numBoxesOpen = mViewModel.getNumBoxesOpen();
-        int i = 0;
-        int contents;
-        for (; i < numBoxesOpen; ++i) {
-            contents = mViewModel.peekBox(i);
-            textViewBoxes[i].setText(boxLabels[contents]);
-            if (contents == 0)
-                textViewBoxes[i].setBackgroundColor(colorKeyBackground);
-        }
-
-        for (; i < mViewModel.getNumBoxes(); ++i) {
-            textViewBoxes[i].setText(boxLabelUnopened);
-        }
-*/
-    }
-    // ^ UI update utilities
-    ///////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////
     // Background "thread" for countdown to Open
@@ -138,6 +91,11 @@ public class MainFragment extends Fragment {
     ///////////////////////////////////////////////////////////////
 
 
+    private void setStartDate() {
+        String s = mViewModel.getStartTime() + " on\n" + mViewModel.getStartDate();
+        textViewMainStart.setText(s);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -152,21 +110,7 @@ public class MainFragment extends Fragment {
         textViewMainOpen = activity.findViewById(R.id.textViewMainOpen);
         buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
 
-/*
-        for (int i=0; i < mViewModel.getNumBoxes(); ++i)
-            textViewBoxes[i] = activity.findViewById(boxLabelIDs[i]);
-
-        boxLabelUnopened = activity.getString(R.string.text_box_unopened);
-        boxLabels[0] = activity.getString(R.string.text_box_key);
-        boxLabels[1] = activity.getString(R.string.text_box_1day);
-        boxLabels[2] = activity.getString(R.string.text_box_2day);
-        boxLabels[3] = activity.getString(R.string.text_box_3day);
-        boxLabels[4] = activity.getString(R.string.text_box_4day);
-
-        colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
-*/
-
-        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel.boxes, mViewModel.getNumBoxesOpen());
+        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel.boxes, mViewModel.getNumBoxesOpen(), activity);
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
@@ -191,7 +135,6 @@ public class MainFragment extends Fragment {
                 buttonMainOpen.setEnabled(false);
                 buttonMainOpen.setOnClickListener(onClickButtonOpen);
                 setStartDate();
-                setBoxStrings();
 
                 handler.postDelayed(run, 0);
                 if (BuildConfig.DEBUG)
@@ -205,7 +148,6 @@ public class MainFragment extends Fragment {
                 buttonMainOpen.setEnabled(true);
                 buttonMainOpen.setOnClickListener(activity.onClickButtonMainRestart);
                 setStartDate();
-                setBoxStrings();
                 break;
         }
     }

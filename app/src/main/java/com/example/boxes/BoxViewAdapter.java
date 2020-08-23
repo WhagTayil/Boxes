@@ -1,5 +1,6 @@
 package com.example.boxes;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,21 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
     private int[] mBoxes;
     private int mNumOpen;
 
-    public BoxViewAdapter(int[] boxes, int numOpen) {
+    private final String[] boxLabels = {null, null, null, null, null};
+    private String boxLabelUnopened;
+    private int colorKeyBackground;
+
+    public BoxViewAdapter(int[] boxes, int numOpen, Activity activity) {
         mBoxes = boxes;
         mNumOpen = numOpen;
+
+        boxLabels[0] = activity.getString(R.string.text_box_key);
+        boxLabels[1] = activity.getString(R.string.text_box_1day);
+        boxLabels[2] = activity.getString(R.string.text_box_2day);
+        boxLabels[3] = activity.getString(R.string.text_box_3day);
+        boxLabels[4] = activity.getString(R.string.text_box_4day);
+        boxLabelUnopened = activity.getString(R.string.text_box_unopened);
+        colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
 
         Log.d(LOGTAG, "CTOR");
     }
@@ -34,16 +47,19 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
         //Log.d(LOGTAG, "onBindViewHolder(" + Integer.toString(position) + ")");
 
-        String s = "?";
-        if(position < mNumOpen)
-            s = Integer.toString(mBoxes[position]);
+        String s = boxLabelUnopened;
+        if(position < mNumOpen) {
+            int contents = mBoxes[position];
+            if (contents == 0)
+                holder.mContentView.setBackgroundColor(colorKeyBackground);
+
+            s = boxLabels[contents];
+        }
         holder.mContentView.setText(s);
     }
 
     @Override
-    public int getItemCount() {
-        return mBoxes.length;
-    }
+    public int getItemCount() { return mBoxes.length; }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
