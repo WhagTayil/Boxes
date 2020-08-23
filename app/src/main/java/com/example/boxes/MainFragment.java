@@ -25,8 +25,7 @@ public class MainFragment extends Fragment {
     public MainFragment() { }
 
     public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        return fragment;
+        return new MainFragment();
     }
 
     @Override
@@ -207,7 +206,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
+    final ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
 
     public final View.OnClickListener onClickButtonOpen = new View.OnClickListener() {
         public void onClick(View v) {

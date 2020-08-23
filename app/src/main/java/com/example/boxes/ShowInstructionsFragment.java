@@ -31,8 +31,7 @@ public class ShowInstructionsFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ShowInstructionsFragment newInstance() {
-        ShowInstructionsFragment fragment = new ShowInstructionsFragment();
-        return fragment;
+        return new ShowInstructionsFragment();
     }
 
     @Override
