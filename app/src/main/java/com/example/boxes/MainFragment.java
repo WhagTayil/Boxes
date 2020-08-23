@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.util.Log;
@@ -19,6 +21,9 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -44,6 +49,7 @@ public class MainFragment extends Fragment {
 
     private static final String LOGTAG = "BOXES:MainFragment";
 
+/*
     private final String[] boxLabels = {null, null, null, null, null};
     private String boxLabelUnopened;
     private int colorKeyBackground;
@@ -52,6 +58,7 @@ public class MainFragment extends Fragment {
             R.id.textView5, R.id.textView6, R.id.textView7, R.id.textView8
     };
     private final TextView[] textViewBoxes = {null, null, null, null, null, null, null, null};
+*/
 
     private TextView textViewMainOpen = null;
     private TextView textViewMainStart = null;
@@ -62,6 +69,7 @@ public class MainFragment extends Fragment {
 
 
     private MainViewModel mViewModel;
+    List<BoxItem> items = new ArrayList<BoxItem>();
 
 
 
@@ -73,6 +81,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setBoxStrings() {
+/*
         int numBoxesOpen = mViewModel.getNumBoxesOpen();
         int i = 0;
         int contents;
@@ -86,6 +95,7 @@ public class MainFragment extends Fragment {
         for (; i < mViewModel.getNumBoxes(); ++i) {
             textViewBoxes[i].setText(boxLabelUnopened);
         }
+*/
     }
     // ^ UI update utilities
     ///////////////////////////////////////////////////////////////
@@ -135,14 +145,16 @@ public class MainFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         FragmentActivity activity = getActivity();
-        for (int i=0; i < mViewModel.getNumBoxes(); ++i)
-            textViewBoxes[i] = activity.findViewById(boxLabelIDs[i]);
-        textViewMainOpen = activity.findViewById(R.id.textViewMainOpen);
-        textViewMainStart = activity.findViewById(R.id.textViewMainStart);
-        buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
 
         textViewMainDay = activity.findViewById(R.id.textViewMainDay);
         textViewMainSince = activity.findViewById(R.id.textViewMainSince);
+        textViewMainStart = activity.findViewById(R.id.textViewMainStart);
+        textViewMainOpen = activity.findViewById(R.id.textViewMainOpen);
+        buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
+
+/*
+        for (int i=0; i < mViewModel.getNumBoxes(); ++i)
+            textViewBoxes[i] = activity.findViewById(boxLabelIDs[i]);
 
         boxLabelUnopened = activity.getString(R.string.text_box_unopened);
         boxLabels[0] = activity.getString(R.string.text_box_key);
@@ -152,6 +164,17 @@ public class MainFragment extends Fragment {
         boxLabels[4] = activity.getString(R.string.text_box_4day);
 
         colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
+*/
+        for (int i = 1; i <= 15; i++) {
+            String contents = "[" + Integer.toString(i % 9) + "]";
+            items.add(new BoxItem(contents));
+        }
+        BoxViewAdapter adapter = new BoxViewAdapter(items);
+
+        RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -197,8 +220,8 @@ public class MainFragment extends Fragment {
 
         Log.d(LOGTAG, "onStop()");
 
-        animation.removeAllListeners();
-        animation.cancel();
+        //animation.removeAllListeners();
+        //animation.cancel();
 
         handler.removeCallbacks(run);
         if (BuildConfig.DEBUG)
@@ -206,7 +229,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    final ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
+    //final ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
 
     public final View.OnClickListener onClickButtonOpen = new View.OnClickListener() {
         public void onClick(View v) {
@@ -218,6 +241,9 @@ public class MainFragment extends Fragment {
         buttonMainOpen.setVisibility(View.INVISIBLE);
         Log.d(LOGTAG, "onButtonOpen()");
 
+/*
+        ////////////////////////
+        // Animate box opening
         final TextView textView = textViewBoxes[mViewModel.getNumBoxesOpen()];
 
         animation.setDuration(3000);
@@ -241,5 +267,11 @@ public class MainFragment extends Fragment {
             }
         });
         animation.start();
+        // ^end animate box opening
+        ////////////////////////
+*/
+        // Must notify parent Activity to open bo9x if not using animation
+        MainActivity activity = (MainActivity) getActivity();
+        activity.onButtonMainOpen(buttonMainOpen);
     }
 }

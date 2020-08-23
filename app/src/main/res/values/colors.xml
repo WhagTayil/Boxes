@@ -7,4 +7,7 @@
     <color name="colorPrimaryText">#000000</color>
     <color name="colorBoxBackground">#FFFFB2CF</color>
     <color name="colorKeyBackground">#FFE6E6E6</color>
+
+    <color name="colorAccentBlue">#03DAC5</color>
+    <color name="colorAccentBluu">#83EAE5</color>
 </resources>

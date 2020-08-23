@@ -65,130 +65,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMainOpen" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="36dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_1day"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonMainOpen" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="144dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_3day"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView1"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView1" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_2day"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_4day"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:layout_marginTop="24dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_unopened"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_unopened"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-        app:layout_constraintEnd_toStartOf="@+id/textView7"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_unopened"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/textView8"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="@color/colorBoxBackground"
-        android:gravity="center"
-        android:text="@string/text_box_key"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView7" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMainOpen">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listBoxes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorAccentBluu"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/fragment_box_item" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
