@@ -14,19 +14,19 @@ import java.util.Calendar;
 import java.util.Random;
 
 public class MainViewModel extends ViewModel implements Parcelable {
-    // TODO: Implement the ViewModel
 
+    private static final int chastityTimeUnit = Calendar.DATE;      // Calendar.DATE or Calendar.SECOND
+    private static final int chastityTimeDuration = 1;              //      1        or     30
 
-    private static final int chastityTimeUnit = Calendar.SECOND;    // Calendar.DATE or Calendar.SECOND
-    private static final int chastityTimeDuration = 10;             //      1        or     30
-
-    public static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 0};
+    //private static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 4, 0, 0};
+    private static final int[] boxes = {3, 1, 3, 3, 1, 2, 2, 1, 2, 3, 2, 0, 4, 0, 1};
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
     private static int numBoxesOpen = 0;
     public enum GameState { VIRGIN, START, PLAY, FINISH }
     private static GameState currentState = GameState.VIRGIN;
 
+    private static Random rnd = new Random();
 
     public MainViewModel() { }
 
@@ -68,7 +68,6 @@ public class MainViewModel extends ViewModel implements Parcelable {
     }
 
 
-
     public void readFromFile(ObjectInputStream ois) throws IOException {
         for (int i=0; i < boxes.length; ++i)
             boxes[i] = ois.readInt();
@@ -91,14 +90,6 @@ public class MainViewModel extends ViewModel implements Parcelable {
     }
 
 
-
-
-
-
-
-
-
-
     private void setNextBoxDate(int numUnits) {
         nextBoxDate = Calendar.getInstance();
         nextBoxDate.add(chastityTimeUnit, chastityTimeDuration * numUnits);
@@ -106,12 +97,10 @@ public class MainViewModel extends ViewModel implements Parcelable {
     private void setNextBoxDate() { setNextBoxDate(1); }
 
 
-
     public void startGame() {
         currentState = GameState.PLAY;
 
         // Shuffle boxes
-        Random rnd = new Random();
         for (int i = boxes.length - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
             // Simple swap
@@ -186,7 +175,6 @@ public class MainViewModel extends ViewModel implements Parcelable {
     }
 
 
-
     private String getTimeString(Calendar calendar) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         return formatter.format(calendar.getTime());
@@ -196,6 +184,4 @@ public class MainViewModel extends ViewModel implements Parcelable {
         SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy");
         return formatter.format(calendar.getTime());
     }
-
-
 }

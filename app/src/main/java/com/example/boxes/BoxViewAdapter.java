@@ -9,19 +9,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+
 public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHolder> {
     private static final String LOGTAG = "BOXES:BoxViewAdapter";
 
-    private int[] mBoxes;
-    private int mNumOpen;
+    private MainViewModel mViewModel;
 
     private final String[] boxLabels = {null, null, null, null, null};
     private String boxLabelUnopened;
     private int colorKeyBackground;
 
-    public BoxViewAdapter(int[] boxes, int numOpen, Activity activity) {
-        mBoxes = boxes;
-        mNumOpen = numOpen;
+    public BoxViewAdapter(MainViewModel viewModel, Activity activity) {
+        mViewModel = viewModel;
 
         boxLabels[0] = activity.getString(R.string.text_box_key);
         boxLabels[1] = activity.getString(R.string.text_box_1day);
@@ -29,7 +28,7 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
         boxLabels[3] = activity.getString(R.string.text_box_3day);
         boxLabels[4] = activity.getString(R.string.text_box_4day);
         boxLabelUnopened = activity.getString(R.string.text_box_unopened);
-        colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
+        colorKeyBackground = activity.getResources().getColor(R.color.colorAccentBluu);
 
         Log.d(LOGTAG, "CTOR");
     }
@@ -48,8 +47,8 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
         //Log.d(LOGTAG, "onBindViewHolder(" + Integer.toString(position) + ")");
 
         String s = boxLabelUnopened;
-        if(position < mNumOpen) {
-            int contents = mBoxes[position];
+        if(position < mViewModel.getNumBoxesOpen()) {
+            int contents = mViewModel.peekBox(position);
             if (contents == 0)
                 holder.mContentView.setBackgroundColor(colorKeyBackground);
 
@@ -59,7 +58,7 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
     }
 
     @Override
-    public int getItemCount() { return mBoxes.length; }
+    public int getItemCount() { return mViewModel.getNumBoxes(); }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

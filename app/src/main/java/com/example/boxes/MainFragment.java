@@ -110,7 +110,7 @@ public class MainFragment extends Fragment {
         textViewMainOpen = activity.findViewById(R.id.textViewMainOpen);
         buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
 
-        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel.boxes, mViewModel.getNumBoxesOpen(), activity);
+        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel, activity);
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
