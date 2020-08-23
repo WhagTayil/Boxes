@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -69,7 +70,8 @@ public class MainFragment extends Fragment {
 
 
     private MainViewModel mViewModel;
-    List<BoxItem> items = new ArrayList<BoxItem>();
+    //List<BoxItem> items = new ArrayList<BoxItem>();
+    List<Integer> boxes;
 
 
 
@@ -165,11 +167,18 @@ public class MainFragment extends Fragment {
 
         colorKeyBackground = activity.getResources().getColor(R.color.colorKeyBackground);
 */
-        for (int i = 1; i <= 15; i++) {
-            String contents = "[" + Integer.toString(i % 9) + "]";
-            items.add(new BoxItem(contents));
+
+
+
+
+        boxes = new ArrayList<Integer>();
+        for (int i = 0; i < 15; ++i) {
+            //String contents = "[" + Integer.toString(i % 9) + "]";
+            //items.add(new BoxItem(contents));
+            boxes.add(mViewModel.peekBox(i));
         }
-        BoxViewAdapter adapter = new BoxViewAdapter(items);
+        //BoxViewAdapter adapter = new BoxViewAdapter(items);
+        BoxViewAdapter adapter = new BoxViewAdapter(boxes, mViewModel.getNumBoxesOpen());
 
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
