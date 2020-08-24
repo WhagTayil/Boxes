@@ -1,5 +1,8 @@
 package com.example.boxes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,6 +54,11 @@ public class MainFragment extends Fragment {
     private TextView textViewMainSince = null;
 
     private MainViewModel mViewModel;
+
+    private RecyclerView recyclerView;
+    private ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
+    private TextView textViewBox;
+    private View layoutBox;
 
 
     ///////////////////////////////////////////////////////////////
@@ -96,6 +105,7 @@ public class MainFragment extends Fragment {
         textViewMainStart.setText(s);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -111,7 +121,7 @@ public class MainFragment extends Fragment {
         buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
 
         BoxViewAdapter adapter = new BoxViewAdapter(mViewModel, activity);
-        RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
+        recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -158,16 +168,14 @@ public class MainFragment extends Fragment {
 
         Log.d(LOGTAG, "onStop()");
 
-        //animation.removeAllListeners();
-        //animation.cancel();
+        animation.removeAllListeners();
+        animation.cancel();
 
         handler.removeCallbacks(run);
         if (BuildConfig.DEBUG)
             Log.v(LOGTAG, " remove runnable callbacks in onStop()");
     }
 
-
-    //final ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
 
     public final View.OnClickListener onClickButtonOpen = new View.OnClickListener() {
         public void onClick(View v) {
@@ -179,19 +187,26 @@ public class MainFragment extends Fragment {
         buttonMainOpen.setVisibility(View.INVISIBLE);
         Log.d(LOGTAG, "onButtonOpen()");
 
-/*
-        ////////////////////////
+
         // Animate box opening
-        final TextView textView = textViewBoxes[mViewModel.getNumBoxesOpen()];
+        BoxViewAdapter.ViewHolder holder = (BoxViewAdapter.ViewHolder)
+                recyclerView.findViewHolderForAdapterPosition(mViewModel.getNumBoxesOpen());
+        if (holder == null) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.onButtonMainOpen(buttonMainOpen);
+            return;
+        }
+        textViewBox = holder.mContentView;
+        layoutBox = recyclerView.findContainingItemView(textViewBox);
 
         animation.setDuration(3000);
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
-
         animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator updatedAnimation) {
                 float animatedValue = (float)updatedAnimation.getAnimatedValue();
-                textView.setAlpha(animatedValue);
+                textViewBox.setAlpha(animatedValue);
+                layoutBox.setAlpha(animatedValue);
             }
         });
         animation.addListener(new AnimatorListenerAdapter() {
@@ -205,11 +220,5 @@ public class MainFragment extends Fragment {
             }
         });
         animation.start();
-        // ^end animate box opening
-        ////////////////////////
-*/
-        // Must notify parent Activity to open bo9x if not using animation
-        MainActivity activity = (MainActivity) getActivity();
-        activity.onButtonMainOpen(buttonMainOpen);
     }
 }
