@@ -180,4 +180,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    public void showSettings() {
+        Log.d(LOGTAG, "showSettings");
+    }
 }

@@ -7,7 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +21,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class NewGameFragment extends Fragment {
+
+    private static final String LOGTAG = "BOXES:NewGameFragment";
 
     public NewGameFragment() {
         // Required empty public constructor
@@ -40,12 +46,31 @@ public class NewGameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(LOGTAG, "onCreateView");
+        setHasOptionsMenu(true);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_game, container, false);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(LOGTAG, "onCreateOptionsMenu()");
+        inflater.inflate(R.menu.rare_menu, menu);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuitem_settings:
+                Log.d(LOGTAG, "settings");
+                MainActivity activity = (MainActivity)getActivity();
+                activity.showSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
     private View mButton;
@@ -72,6 +97,4 @@ public class NewGameFragment extends Fragment {
         View checkBox = activity.findViewById(R.id.checkBoxNewGameLocked);
         checkBox.setOnClickListener(onClickCheckBox);
     }
-
-
 }
