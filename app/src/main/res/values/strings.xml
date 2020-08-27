@@ -31,4 +31,13 @@
     <string name="text_openbox_result">It contains a… 5, haha</string>
     <string name="button_openbox_continue">continue</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_settings_Q1">3 x</string>
+    <string name="text_settings_Q2">1 x</string>
+    <string name="text_settings_increment">+</string>
+    <string name="text_settings_decrement">-</string>
+
+    <string name="text_settings_num">Total number of boxes:</string>
+    <string name="text_settings_num_boxes">15</string>
+
 </resources>
