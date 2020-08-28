@@ -7,10 +7,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,10 +26,11 @@ public class SettingsFragment extends Fragment {
 
     //private static final String LOGTAG = "BOXES:SettingsFragment";
 
+    private MainViewModel mViewModel;
+
     private int mTotalBoxes = 15;
     private int[] mNumberOfBoxType = { 3, 3, 2, 2, 1, 1, 1, 1, 1 };
     private boolean mAddMode = true;
-    private int mTimeStep = 2;
 
     private TextView textViewTotalBoxes;
     private static final int[] textViewNumIDs = {
@@ -70,18 +73,39 @@ public class SettingsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+    private void readViewModel() {
+        for (int i = 0; i < 9; ++i)
+            mNumberOfBoxType[i] = 0;
+
+        mTotalBoxes = mViewModel.getNumBoxes();
+        int boxContents;
+        for (int i = 0; i < mTotalBoxes; ++i) {
+            boxContents = mViewModel.peekBox(i) - 1;
+            if (boxContents == -1) boxContents = 8;
+            mNumberOfBoxType[boxContents] += 1;
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        readViewModel();
+
+        String s;
         FragmentActivity activity = getActivity();
 
         textViewTotalBoxes = activity.findViewById(R.id.textViewNumBoxes);
+        s = Integer.toString(mTotalBoxes);
+        textViewTotalBoxes.setText(s);
 
         ImageView imageView;
         for (int i=0; i < 9; ++i) {
             textViewsNumberOfBoxType[i] = activity.findViewById(textViewNumIDs[i]);
+            s = Integer.toString(mNumberOfBoxType[i]) + "x";
+            textViewsNumberOfBoxType[i].setText(s);
+
             imageView = activity.findViewById(buttonIDs[i]);
             imageView.setOnClickListener(onClickButton);
         }
@@ -92,18 +116,21 @@ public class SettingsFragment extends Fragment {
         SeekBar seekBar = activity.findViewById(R.id.seekBarTimeStep);
         seekBar.setOnSeekBarChangeListener(onChangeSeekBar);
         textViewTimeStep = activity.findViewById(R.id.textViewTimeStep);
+
+        Button button = activity.findViewById(R.id.buttonSettingsOK);
+        button.setOnClickListener(onClickOK);
     }
 
 
     public final SeekBar.OnSeekBarChangeListener onChangeSeekBar = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            mTimeStep = i + 1;
+            int timeStep = i + 1;
             String s;
-            if (mTimeStep == 1)
-                s = Integer.toString(mTimeStep) + "hr";
+            if (timeStep == 1)
+                s = Integer.toString(timeStep) + "hr";
             else
-                s = Integer.toString(mTimeStep) + "hrs";
+                s = Integer.toString(timeStep) + "hrs";
             textViewTimeStep.setText(s);
         }
 
@@ -118,6 +145,14 @@ public class SettingsFragment extends Fragment {
         }
     };
 
+    private void setBoxStrings(int i) {
+        String s = Integer.toString(mNumberOfBoxType[i]) + "x";
+        textViewsNumberOfBoxType[i].setText(s);
+
+        s = Integer.toString(mTotalBoxes);
+        textViewTotalBoxes.setText(s);
+    }
+    
     public final View.OnClickListener onClickButton = new View.OnClickListener() {
         public void onClick(View v) {
             onButton(v);
@@ -131,22 +166,24 @@ public class SettingsFragment extends Fragment {
         }
 
         if (mAddMode) {
+            // ToDo: Lower max total boxes? (81)
             if (mNumberOfBoxType[i] < 9) {
                 ++mNumberOfBoxType[i];
                 ++mTotalBoxes;
+
+                setBoxStrings(i);
             }
         } else {
             if (mNumberOfBoxType[i] > 0) {
+                if ((mNumberOfBoxType[i] == 1) && (i == 8)) return;
+                if ((mNumberOfBoxType[i] == 1) && (mTotalBoxes - mNumberOfBoxType[8] == 1)) return;
+
                 --mNumberOfBoxType[i];
                 --mTotalBoxes;
+                
+                setBoxStrings(i);
             }
         }
-
-        String s = Integer.toString(mNumberOfBoxType[i]) + "x";
-        textViewsNumberOfBoxType[i].setText(s);
-
-        s = Integer.toString(mTotalBoxes);
-        textViewTotalBoxes.setText(s);
     }
 
     public final View.OnClickListener onClickSwitch = new View.OnClickListener() {
@@ -156,5 +193,19 @@ public class SettingsFragment extends Fragment {
     };
     public void onSwitch(View v) {
         mAddMode = !mAddMode;
+    }
+
+    public final View.OnClickListener onClickOK = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onButtonOK(v);
+        }
+    };
+    public void onButtonOK(View v) {
+        // ToDo: update view modeel
+        mViewModel.setBoxes(mTotalBoxes, mNumberOfBoxType);
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.onButtonSettingsOK(v);
     }
 }

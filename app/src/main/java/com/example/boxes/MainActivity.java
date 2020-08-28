@@ -192,4 +192,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    public void onButtonSettingsOK(View v) {
+        Log.d(LOGTAG, "onButtonSettingsOK()");
+
+        writeSaveData();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
 }

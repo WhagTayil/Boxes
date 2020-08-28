@@ -15,7 +15,7 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
 
     private MainViewModel mViewModel;
 
-    private final String[] boxLabels = {null, null, null, null, null};
+    private final String[] boxLabels = {null, null, null, null, null, null, null, null, null};
     private String boxLabelUnopened;
     private int colorKeyBackground;
 
@@ -27,6 +27,10 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
         boxLabels[2] = activity.getString(R.string.text_box_2day);
         boxLabels[3] = activity.getString(R.string.text_box_3day);
         boxLabels[4] = activity.getString(R.string.text_box_4day);
+        boxLabels[5] = activity.getString(R.string.text_box_5day);
+        boxLabels[6] = activity.getString(R.string.text_box_6day);
+        boxLabels[7] = activity.getString(R.string.text_box_7day);
+        boxLabels[8] = activity.getString(R.string.text_box_infinity);
         boxLabelUnopened = activity.getString(R.string.text_box_unopened);
         colorKeyBackground = activity.getResources().getColor(R.color.colorAccentBluu);
 

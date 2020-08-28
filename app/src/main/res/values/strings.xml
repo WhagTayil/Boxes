@@ -18,6 +18,10 @@
     <string name="text_box_2day">2</string>
     <string name="text_box_3day">3</string>
     <string name="text_box_4day">4</string>
+    <string name="text_box_5day">5</string>
+    <string name="text_box_6day">6</string>
+    <string name="text_box_7day">7</string>
+    <string name="text_box_infinity">\@</string>
     <string name="text_box_key">&#x1f511;</string>
 
     <string name="text_showinstructions_greet">Welcome to Mystery Box game!</string>

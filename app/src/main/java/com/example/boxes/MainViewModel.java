@@ -15,11 +15,11 @@ import java.util.Random;
 
 public class MainViewModel extends ViewModel implements Parcelable {
 
-    private static final int chastityTimeUnit = Calendar.DATE;      // Calendar.DATE or Calendar.SECOND
-    private static final int chastityTimeDuration = 1;              //      1        or     30
+    private static final int chastityTimeUnit = Calendar.SECOND;      // Calendar.DATE or Calendar.SECOND
+    private static final int chastityTimeDuration = 10;              //      1        or     30
 
     //private static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 4, 0, 0};
-    private static final int[] boxes = {3, 1, 3, 3, 1, 2, 2, 1, 2, 3, 2, 0, 4, 0, 1};
+    private static int[] boxes = {3, 1, 3, 3, 1, 2, 2, 1, 2, 3, 2, 0, 4, 0, 1};
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
     private static int numBoxesOpen = 0;
@@ -69,6 +69,8 @@ public class MainViewModel extends ViewModel implements Parcelable {
 
 
     public void readFromFile(ObjectInputStream ois) throws IOException {
+        int numBoxes = ois.readInt();
+        boxes = new int[numBoxes];
         for (int i=0; i < boxes.length; ++i)
             boxes[i] = ois.readInt();
         long l = ois.readLong();
@@ -81,6 +83,7 @@ public class MainViewModel extends ViewModel implements Parcelable {
     }
 
     public void writeToFile(ObjectOutputStream oos) throws IOException {
+        oos.writeInt(boxes.length);
         for (int i=0; i < boxes.length; ++i)
             oos.writeInt(boxes[i]);
         oos.writeLong(nextBoxDate.getTimeInMillis());
@@ -95,6 +98,27 @@ public class MainViewModel extends ViewModel implements Parcelable {
         nextBoxDate.add(chastityTimeUnit, chastityTimeDuration * numUnits);
     }
     private void setNextBoxDate() { setNextBoxDate(1); }
+
+    public void setBoxes(int totalBoxes, int[] numberOfBoxes) {
+        boxes = new int[totalBoxes];
+        for (int i=0; i < totalBoxes; ++i) {
+            boxes[i] = 0;
+        }
+
+        numBoxesOpen = 0;
+        while (numBoxesOpen < totalBoxes) {
+            for (int i = 0; i < 8; ++i) {
+                if (numberOfBoxes[i] > 0) {
+                    boxes[numBoxesOpen++] = i + 1;
+                    numberOfBoxes[i] -= 1;
+                }
+            }
+            if (numberOfBoxes[8] > 0) {
+                boxes[numBoxesOpen++] = 0;
+                numberOfBoxes[8] -= 1;
+            }
+        }
+    }
 
 
     public void startGame() {

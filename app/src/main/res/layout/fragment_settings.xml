@@ -223,7 +223,7 @@
         android:id="@+id/divider"
         android:layout_width="318dp"
         android:layout_height="1dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +261,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:max="23"
@@ -273,10 +273,11 @@
     <TextView
         android:id="@+id/textViewMotto"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:alpha=".5"
-        android:fontFamily="cursive"
+        android:layout_height="73dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="casual"
         android:gravity="center"
         android:rotation="357"
         android:shadowColor="@color/colorAccent"
@@ -284,13 +285,21 @@
         android:shadowDy="2"
         android:shadowRadius="8"
         android:text="Come on, push yourself.\nDo it for Natalie."
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="30sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarTimeStep"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarTimeStep" />
+
+    <Button
+        android:id="@+id/buttonSettingsOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@android:string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarTimeStep" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
