@@ -183,5 +183,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void showSettings() {
         Log.d(LOGTAG, "showSettings");
+
+        SettingsFragment fragment = new SettingsFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
