@@ -32,8 +32,16 @@
     <string name="button_openbox_continue">continue</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="text_settings_Q1">3 x</string>
-    <string name="text_settings_Q2">1 x</string>
+    <string name="text_settings_Q1">3x</string>
+    <string name="text_settings_Q2">3x</string>
+    <string name="text_settings_Q3">2x</string>
+    <string name="text_settings_Q4">2x</string>
+    <string name="text_settings_Q5">1x</string>
+    <string name="text_settings_Q6">1x</string>
+    <string name="text_settings_Q7">1x</string>
+    <string name="text_settings_Q8">1x</string>
+    <string name="text_settings_Q9">1x</string>
+
     <string name="text_settings_increment">+</string>
     <string name="text_settings_decrement">-</string>
 

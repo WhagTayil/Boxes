@@ -15,6 +15,12 @@ import android.view.ViewGroup;
  */
 public class SettingsFragment extends Fragment {
 
+    private int mTotalBoxes = 14;
+    private int[] mNumberOfBoxType = {1, 2, 1, 2, 1, 2, 3, 1, 1};
+    private boolean mAddMode = true;
+    private int mTimeStep = 2;
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
