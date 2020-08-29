@@ -31,6 +31,8 @@ public class SettingsFragment extends Fragment {
     private int mTotalBoxes = 15;
     private int[] mNumberOfBoxType = { 3, 3, 2, 2, 1, 1, 1, 1, 1 };
     private boolean mAddMode = true;
+    private int mTimeStep;
+
 
     private TextView textViewTotalBoxes;
     private static final int[] textViewNumIDs = {
@@ -73,6 +75,7 @@ public class SettingsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+
     private void readViewModel() {
         for (int i = 0; i < 9; ++i)
             mNumberOfBoxType[i] = 0;
@@ -84,7 +87,28 @@ public class SettingsFragment extends Fragment {
             if (boxContents == -1) boxContents = 8;
             mNumberOfBoxType[boxContents] += 1;
         }
+
+        mTimeStep = mViewModel.getTimeStepHours();
     }
+
+
+    private void setBoxStrings(int i) {
+        String s = Integer.toString(mNumberOfBoxType[i]) + "x";
+        textViewsNumberOfBoxType[i].setText(s);
+
+        s = Integer.toString(mTotalBoxes);
+        textViewTotalBoxes.setText(s);
+    }
+
+    private void setTimeStepText() {
+        String s;
+        if (mTimeStep == 1)
+            s = Integer.toString(mTimeStep) + "hr";
+        else
+            s = Integer.toString(mTimeStep) + "hrs";
+        textViewTimeStep.setText(s);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -114,24 +138,20 @@ public class SettingsFragment extends Fragment {
         switchCompat.setOnClickListener(onClickSwitch);
 
         SeekBar seekBar = activity.findViewById(R.id.seekBarTimeStep);
+        seekBar.setProgress(mTimeStep - 1);
         seekBar.setOnSeekBarChangeListener(onChangeSeekBar);
         textViewTimeStep = activity.findViewById(R.id.textViewTimeStep);
+        setTimeStepText();
 
         Button button = activity.findViewById(R.id.buttonSettingsOK);
         button.setOnClickListener(onClickOK);
     }
 
-
     public final SeekBar.OnSeekBarChangeListener onChangeSeekBar = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            int timeStep = i + 1;
-            String s;
-            if (timeStep == 1)
-                s = Integer.toString(timeStep) + "hr";
-            else
-                s = Integer.toString(timeStep) + "hrs";
-            textViewTimeStep.setText(s);
+            mTimeStep = i + 1;
+            setTimeStepText();
         }
 
         @Override
@@ -145,14 +165,6 @@ public class SettingsFragment extends Fragment {
         }
     };
 
-    private void setBoxStrings(int i) {
-        String s = Integer.toString(mNumberOfBoxType[i]) + "x";
-        textViewsNumberOfBoxType[i].setText(s);
-
-        s = Integer.toString(mTotalBoxes);
-        textViewTotalBoxes.setText(s);
-    }
-    
     public final View.OnClickListener onClickButton = new View.OnClickListener() {
         public void onClick(View v) {
             onButton(v);
@@ -202,8 +214,8 @@ public class SettingsFragment extends Fragment {
         }
     };
     public void onButtonOK(View v) {
-        // ToDo: update view modeel
         mViewModel.setBoxes(mTotalBoxes, mNumberOfBoxType);
+        mViewModel.setTimeStep(mTimeStep);
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.onButtonSettingsOK(v);

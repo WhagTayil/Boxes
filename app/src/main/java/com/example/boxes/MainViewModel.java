@@ -1,7 +1,5 @@
 package com.example.boxes;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
@@ -13,12 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
-public class MainViewModel extends ViewModel implements Parcelable {
+public class MainViewModel extends ViewModel /*implements Parcelable*/ {
 
-    private static final int chastityTimeUnit = Calendar.SECOND;      // Calendar.DATE or Calendar.SECOND
-    private static final int chastityTimeDuration = 10;              //      1        or     30
+    private static int chastityTimeUnit = Calendar.SECOND;      // Calendar.DATE or Calendar.SECOND
+    private static int chastityTimeDuration = 10;              //      1        or     30
 
-    //private static final int[] boxes = {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 4, 0, 0};
     private static int[] boxes = {3, 1, 3, 3, 1, 2, 2, 1, 2, 3, 2, 0, 4, 0, 1};
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
@@ -30,8 +27,7 @@ public class MainViewModel extends ViewModel implements Parcelable {
 
     public MainViewModel() { }
 
-
-    public int describeContents() {
+/*    public int describeContents() {
         return 0;
     }
 
@@ -66,7 +62,7 @@ public class MainViewModel extends ViewModel implements Parcelable {
         int i = in.readInt();
         currentState = GameState.values()[i];
     }
-
+*/
 
     public void readFromFile(ObjectInputStream ois) throws IOException {
         int numBoxes = ois.readInt();
@@ -78,6 +74,8 @@ public class MainViewModel extends ViewModel implements Parcelable {
         l = ois.readLong();
         startDate.setTimeInMillis(l);
         numBoxesOpen = ois.readInt();
+        chastityTimeDuration = ois.readInt();
+        chastityTimeUnit = ois.readInt();
         int i = ois.readInt();
         currentState = GameState.values()[i];
     }
@@ -89,6 +87,8 @@ public class MainViewModel extends ViewModel implements Parcelable {
         oos.writeLong(nextBoxDate.getTimeInMillis());
         oos.writeLong(startDate.getTimeInMillis());
         oos.writeInt(numBoxesOpen);
+        oos.writeInt(chastityTimeDuration);
+        oos.writeInt(chastityTimeUnit);
         oos.writeInt(currentState.ordinal());
     }
 
@@ -117,6 +117,16 @@ public class MainViewModel extends ViewModel implements Parcelable {
                 boxes[numBoxesOpen++] = 0;
                 numberOfBoxes[8] -= 1;
             }
+        }
+    }
+
+    public void setTimeStep(int numHours) {
+        if (numHours == 24) {
+            chastityTimeUnit = Calendar.DATE;
+            chastityTimeDuration = 1;
+        } else {
+            chastityTimeUnit = Calendar.HOUR;
+            chastityTimeDuration = numHours;
         }
     }
 
@@ -169,6 +179,13 @@ public class MainViewModel extends ViewModel implements Parcelable {
         Calendar now = Calendar.getInstance();
         return nextBoxDate.getTimeInMillis() - now.getTimeInMillis();
     }
+    public int getTimeStepHours() {
+        int t = 1;
+        if (chastityTimeUnit == Calendar.DATE)
+            t = 24;
+
+        return t * chastityTimeDuration;
+    }
 
     public int getNumBoxes() {
         return boxes.length;
@@ -194,6 +211,7 @@ public class MainViewModel extends ViewModel implements Parcelable {
             Log.v(LOGTAG, s.toString());
             Log.v(LOGTAG, "Start - " + getStartTime() + " " + getStartDate());
             Log.v(LOGTAG, " Next - " + getTimeString(nextBoxDate) + " " + getDateString(nextBoxDate));
+            Log.v(LOGTAG, "delta - " + chastityTimeDuration + " " +  chastityTimeUnit);
             Log.v(LOGTAG, "State - " + currentState.name());
         }
     }
