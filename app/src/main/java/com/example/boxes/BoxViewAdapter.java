@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,27 +15,22 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
 
     private MainViewModel mViewModel;
 
-    private final String[] boxLabels = {null, null, null, null, null, null, null, null, null};
-    private String boxLabelUnopened;
-    private int colorBackground;
-    private int colorKeyBackground;
+    private int mOpenBoxImageIDs[] = {
+            R.drawable.ic_lock_open_black_48dp_2tone,
+            R.drawable.ic_looks_one_black_48dp_2tone,
+            R.drawable.ic_looks_two_black_48dp_2tone,
+            R.drawable.ic_looks_3_black_48dp_2tone,
+            R.drawable.ic_looks_4_black_48dp_2tone,
+            R.drawable.ic_looks_5_black_48dp_2tone,
+            R.drawable.ic_looks_6_black_48dp_2tone,
+            R.drawable.ic_slideshow_black_48dp_2tone,
+            R.drawable.ic_pages_black_48dp
+    };
+    private int mBoxImageID = R.drawable.ic_redeem_black_48dp_2tone;
+
 
     public BoxViewAdapter(MainViewModel viewModel, Activity activity) {
         mViewModel = viewModel;
-
-        boxLabels[0] = activity.getString(R.string.text_box_key);
-        boxLabels[1] = activity.getString(R.string.text_box_1day);
-        boxLabels[2] = activity.getString(R.string.text_box_2day);
-        boxLabels[3] = activity.getString(R.string.text_box_3day);
-        boxLabels[4] = activity.getString(R.string.text_box_4day);
-        boxLabels[5] = activity.getString(R.string.text_box_5day);
-        boxLabels[6] = activity.getString(R.string.text_box_6day);
-        boxLabels[7] = activity.getString(R.string.text_box_7day);
-        boxLabels[8] = activity.getString(R.string.text_box_infinity);
-        boxLabelUnopened = activity.getString(R.string.text_box_unopened);
-        colorBackground = activity.getResources().getColor(R.color.colorBoxBackground);
-        colorKeyBackground = activity.getResources().getColor(R.color.colorAccentBluu);
-
         Log.d(LOGTAG, "CTOR");
     }
 
@@ -52,17 +47,22 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
         //Log.d(LOGTAG, "onBindViewHolder(" + Integer.toString(position) + ")");
 
-        String s = boxLabelUnopened;
+        ImageView imageView = holder.mContentView;
+
         if(position < mViewModel.getNumBoxesOpen()) {
             int contents = mViewModel.peekBox(position);
-            if (contents == 0)
-                holder.mContentView.setBackgroundColor(colorKeyBackground);
-            else
-                holder.mContentView.setBackgroundColor(colorBackground);
 
-            s = boxLabels[contents];
+            imageView.setImageResource(mOpenBoxImageIDs[contents]);
+            if (contents == 0)
+                imageView.setTranslationY(4);
+            else
+                imageView.setTranslationY(6);
+            imageView.setScaleY(1);
+        } else {
+            imageView.setImageResource(mBoxImageID);
+            imageView.setTranslationY(0);
+            imageView.setScaleY(1.2f);
         }
-        holder.mContentView.setText(s);
     }
 
     @Override
@@ -70,17 +70,18 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public final TextView mContentView;
+        public final ImageView mContentView;
 
         public ViewHolder(View view) {
             super(view);
 
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (ImageView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            //return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString();
         }
     }
 }

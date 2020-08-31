@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menuitem_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_settings_white_48dp_2tone"
+        android:iconTint="@android:color/holo_orange_dark"
+        android:iconTintMode="multiply"
         app:showAsAction="always" />
 </menu>

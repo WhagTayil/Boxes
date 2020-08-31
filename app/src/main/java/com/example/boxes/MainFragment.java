@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -57,7 +58,7 @@ public class MainFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
-    private TextView textViewBox;
+    private ImageView textViewBox;
     private View layoutBox;
 
 
@@ -122,7 +123,7 @@ public class MainFragment extends Fragment {
 
         BoxViewAdapter adapter = new BoxViewAdapter(mViewModel, activity);
         recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
-        recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
+        //recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }

@@ -78,6 +78,9 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
         chastityTimeUnit = ois.readInt();
         int i = ois.readInt();
         currentState = GameState.values()[i];
+
+        if (BuildConfig.DEBUG)
+            chastityTimeUnit = Calendar.SECOND;
     }
 
     public void writeToFile(ObjectOutputStream oos) throws IOException {
@@ -128,6 +131,9 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
             chastityTimeUnit = Calendar.HOUR;
             chastityTimeDuration = numHours;
         }
+
+        if (BuildConfig.DEBUG)
+            chastityTimeUnit = Calendar.SECOND;
     }
 
 
