@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 public class MainViewModel extends ViewModel /*implements Parcelable*/ {
+    private static int NUM_SHUFFLES = 6;
 
     private static int chastityTimeUnit = Calendar.SECOND;      // Calendar.DATE or Calendar.SECOND
     private static int chastityTimeDuration = 10;              //      1        or     30
@@ -141,12 +142,14 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
         currentState = GameState.PLAY;
 
         // Shuffle boxes
-        for (int i = boxes.length - 1; i > 0; i--) {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            int a = boxes[index];
-            boxes[index] = boxes[i];
-            boxes[i] = a;
+        for (int j = 0; j < NUM_SHUFFLES; ++j) {
+            for (int i = boxes.length - 1; i > 0; i--) {
+                int index = rnd.nextInt(i + 1);
+                // Simple swap
+                int a = boxes[index];
+                boxes[index] = boxes[i];
+                boxes[i] = a;
+            }
         }
         numBoxesOpen = 0;
 
@@ -159,11 +162,16 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
     public int openBox() {
         int contents = boxes[numBoxesOpen++];
 
-        if (contents == 0) {
-            currentState = GameState.FINISH;
-        } else {
-            currentState = GameState.PLAY;
-            setNextBoxDate(contents);
+        switch (contents) {
+            case 0:
+                currentState = GameState.FINISH;
+                break;
+            case 8:
+                startGame();
+                break;
+            default:
+                currentState = GameState.PLAY;
+                setNextBoxDate(contents);
         }
 
         return contents;

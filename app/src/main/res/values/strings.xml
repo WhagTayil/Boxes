@@ -25,7 +25,10 @@
     <string name="button_newgame_start">s t a r t</string>
 
     <string name="text_openbox_thought">OK, let\'s open the next box…</string>
-    <string name="text_openbox_result">It contains a… 5, haha</string>
+    <string name="text_openbox_result_key">It contains a… key, yay!</string>
+    <string name="text_openbox_result_infinity">It is an Infinity Box! Too bad.</string>
+    <string name="text_openbox_result_prefix">It contains a… </string>
+    <string name="text_openbox_result_postfix">, haha</string>
     <string name="button_openbox_continue">continue</string>
 
     <string name="menu_settings">Settings</string>

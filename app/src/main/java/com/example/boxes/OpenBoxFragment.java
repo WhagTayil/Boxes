@@ -1,5 +1,6 @@
 package com.example.boxes;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -50,14 +51,26 @@ public class OpenBoxFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(LOGTAG, "onViewCreated()");
 
-        // ToDo: move to strings.xml
-        String s = "It contains a... key, yay!";
-        if (mBoxContents > 0) { s = String.format("It contains a... %d, haha", mBoxContents); }
+        Activity activity = getActivity();
+        TextView textViewResult = activity.findViewById(R.id.textViewOpenBoxResult);
 
-        TextView textView = getActivity().findViewById(R.id.textViewOpenBoxResult);
-        textView.setText(s);
+        switch(mBoxContents) {
+            case 0:
+                // "It contains a... key, yay!"
+                textViewResult.setText(R.string.text_openbox_result_key);
+                break;
+            case 8:
+                // "It is an Infinity Box! Too bad."
+                textViewResult.setText(R.string.text_openbox_result_infinity);
+                break;
+            default:
+                // "It contains a... %d, haha"
+                String s;
+                s = getString(R.string.text_openbox_result_prefix) + mBoxContents + getString(R.string.text_openbox_result_postfix);
+                textViewResult.setText(s);
+        }
 
-        Button buttonContinue = getActivity().findViewById(R.id.buttonOpenBoxContinue);
+        Button buttonContinue = activity.findViewById(R.id.buttonOpenBoxContinue);
         buttonContinue.setOnClickListener(onClickButtonContinue);
     }
 

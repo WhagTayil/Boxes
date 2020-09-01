@@ -120,6 +120,8 @@ public class SettingsFragment extends Fragment {
         }
 
         SwitchCompat switchCompat = activity.findViewById(R.id.switchAddMode);
+        switchCompat.setChecked(true);
+        mAddMode = true;
         switchCompat.setOnClickListener(onClickSwitch);
 
         SeekBar seekBar = activity.findViewById(R.id.seekBarTimeStep);

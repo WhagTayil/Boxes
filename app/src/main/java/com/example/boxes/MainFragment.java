@@ -85,7 +85,10 @@ public class MainFragment extends Fragment {
 
                     handler.postDelayed(this, 500);
                 } else {
-                    textViewMainOpen.setText(R.string.text_main_open_now);
+                    if (mViewModel.getNumBoxesOpen() == 0)
+                        textViewMainOpen.setText(R.string.text_main_open_first_now);
+                    else
+                        textViewMainOpen.setText(R.string.text_main_open_now);
                     buttonMainOpen.setEnabled(true);
 
                     if (BuildConfig.DEBUG)
@@ -140,6 +143,10 @@ public class MainFragment extends Fragment {
                 activity.showStartScreen();
                 break;
             case PLAY:
+                if (mViewModel.getNumBoxesOpen() == 0)
+                    textViewMainOpen.setText(R.string.text_main_open_first_in);
+                else
+                    textViewMainOpen.setText(R.string.text_main_open_in);
                 buttonMainOpen.setEnabled(false);
                 buttonMainOpen.setOnClickListener(onClickButtonOpen);
                 setStartDate();
