@@ -21,7 +21,7 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
     private static Calendar nextBoxDate = Calendar.getInstance();
     private static Calendar startDate = Calendar.getInstance();
     private static int numBoxesOpen = 0;
-    public enum GameState { VIRGIN, START, PLAY, FINISH }
+    public enum GameState { VIRGIN, START, PLAY, FINISH, INFINITY }
     private static GameState currentState = GameState.VIRGIN;
 
     private static final Random rnd = new Random();
@@ -162,16 +162,13 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
     public int openBox() {
         int contents = boxes[numBoxesOpen++];
 
-        switch (contents) {
-            case 0:
-                currentState = GameState.FINISH;
-                break;
-            case 8:
-                startGame();
-                break;
-            default:
-                currentState = GameState.PLAY;
-                setNextBoxDate(contents);
+        if (contents == 0)
+            currentState = GameState.FINISH;
+        else if (contents == 8)
+            currentState = GameState.INFINITY;
+        else {
+            currentState = GameState.PLAY;
+            setNextBoxDate(contents);
         }
 
         return contents;

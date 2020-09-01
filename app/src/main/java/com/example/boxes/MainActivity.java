@@ -156,6 +156,18 @@ public class MainActivity extends AppCompatActivity {
         showStartScreen();
     }
 
+    public final View.OnClickListener onClickButtonMainInfinity = new View.OnClickListener() {
+        public void onClick(View v) { onButtonMainInfinity(v); }
+    };
+    public void onButtonMainInfinity(View view) {
+        Log.d(LOGTAG, "onButtonMainInfinity()");
+
+        mViewModel.startGame();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow();
+    }
+
 
     public void showInstructions() {
         Log.d(LOGTAG, "showInstructions()");

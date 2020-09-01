@@ -164,6 +164,14 @@ public class MainFragment extends Fragment {
                 buttonMainOpen.setOnClickListener(activity.onClickButtonMainRestart);
                 setStartDate();
                 break;
+
+            case INFINITY:
+                textViewMainOpen.setText(R.string.text_main_infinity);
+                buttonMainOpen.setText(R.string.button_main_open_infinity);
+                buttonMainOpen.setEnabled(true);
+                buttonMainOpen.setOnClickListener(activity.onClickButtonMainInfinity);
+                setStartDate();
+                break;
         }
     }
 

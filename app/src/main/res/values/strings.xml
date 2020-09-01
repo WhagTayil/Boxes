@@ -13,9 +13,11 @@
     <string name="text_main_open_in">You may open\nthe next box in…</string>
     <string name="text_main_open_now">You may open\nthe next box now</string>
     <string name="text_main_restart">You should edge\nand start again</string>
+    <string name="text_main_infinity">You\'re back at\nthe start again</string>
     <string name="button_main_open_in">15:49:17</string>
     <string name="button_main_open_now">o p e n</string>
     <string name="button_main_open_restart">r e- s t a r t</string>
+    <string name="button_main_open_infinity">continue</string>
 
     <string name="text_showinstructions_greet">Welcome to Mystery Box game!</string>
     <string name="text_showinstructions_explain">I wrote down numbers and put one\nin each of 7 boxes. (There are two\n1s, two 2s, two 3s and a 4) Your key\nis in another box. After a day you\nmay open your first box. If it contains\na number you will wait that many\ndays before opening the next box.\nGood luck.</string>
