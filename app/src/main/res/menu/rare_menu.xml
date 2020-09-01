@@ -6,5 +6,6 @@
         android:icon="@drawable/ic_settings_white_48dp_2tone"
         android:iconTint="@android:color/holo_orange_dark"
         android:iconTintMode="multiply"
+        android:title="@string/menu_settings"
         app:showAsAction="always" />
 </menu>

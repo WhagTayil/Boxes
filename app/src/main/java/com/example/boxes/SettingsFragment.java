@@ -17,11 +17,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SettingsFragment extends Fragment {
 
     //private static final String LOGTAG = "BOXES:SettingsFragment";
@@ -29,7 +25,7 @@ public class SettingsFragment extends Fragment {
     private MainViewModel mViewModel;
 
     private int mTotalBoxes = 15;
-    private int[] mNumberOfBoxType = { 3, 3, 2, 2, 1, 1, 1, 1, 1 };
+    private final int[] mNumberOfBoxType = { 3, 3, 2, 2, 1, 1, 1, 1, 1 };
     private boolean mAddMode = true;
     private int mTimeStep;
 
@@ -40,7 +36,7 @@ public class SettingsFragment extends Fragment {
             R.id.textViewQ4, R.id.textViewQ5, R.id.textViewQ6,
             R.id.textViewQ7, R.id.textViewQ8, R.id.textViewQ9
     };
-    private TextView[] textViewsNumberOfBoxType = {null, null, null, null, null, null, null, null, null};
+    private final TextView[] textViewsNumberOfBoxType = {null, null, null, null, null, null, null, null, null};
     private static final int[] buttonIDs = {
             R.id.imageViewSettingsQ1, R.id.imageViewSettingsQ2, R.id.imageViewSettingsQ3,
             R.id.imageViewSettingsQ4, R.id.imageViewSettingsQ5, R.id.imageViewSettingsQ6,
@@ -50,17 +46,6 @@ public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment SettingsFragment.
-     */
-    public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
-        return fragment;
     }
 
     @Override
@@ -93,7 +78,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void setBoxStrings(int i) {
-        String s = Integer.toString(mNumberOfBoxType[i]) + "x";
+        String s = mNumberOfBoxType[i] + "x";
         textViewsNumberOfBoxType[i].setText(s);
 
         s = Integer.toString(mTotalBoxes);
@@ -103,9 +88,9 @@ public class SettingsFragment extends Fragment {
     private void setTimeStepText() {
         String s;
         if (mTimeStep == 1)
-            s = Integer.toString(mTimeStep) + "hr";
+            s = mTimeStep + "hr";
         else
-            s = Integer.toString(mTimeStep) + "hrs";
+            s = mTimeStep + "hrs";
         textViewTimeStep.setText(s);
     }
 
@@ -127,7 +112,7 @@ public class SettingsFragment extends Fragment {
         ImageView imageView;
         for (int i=0; i < 9; ++i) {
             textViewsNumberOfBoxType[i] = activity.findViewById(textViewNumIDs[i]);
-            s = Integer.toString(mNumberOfBoxType[i]) + "x";
+            s = mNumberOfBoxType[i] + "x";
             textViewsNumberOfBoxType[i].setText(s);
 
             imageView = activity.findViewById(buttonIDs[i]);

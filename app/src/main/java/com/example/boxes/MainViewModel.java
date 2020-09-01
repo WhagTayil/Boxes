@@ -23,7 +23,7 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
     public enum GameState { VIRGIN, START, PLAY, FINISH }
     private static GameState currentState = GameState.VIRGIN;
 
-    private static Random rnd = new Random();
+    private static final Random rnd = new Random();
 
     public MainViewModel() { }
 

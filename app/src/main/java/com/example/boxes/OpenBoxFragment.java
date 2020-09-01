@@ -13,11 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OpenBoxFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class OpenBoxFragment extends Fragment {
 
     private static final String LOGTAG = "BOXES:OpenBoxFragment";
@@ -28,14 +24,6 @@ public class OpenBoxFragment extends Fragment {
 
     public OpenBoxFragment() {
         // Required empty public constructor
-    }
-
-    public static OpenBoxFragment newInstance(int boxContents) {
-        OpenBoxFragment fragment = new OpenBoxFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_BOX_CONTENTS, boxContents);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

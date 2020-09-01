@@ -1,6 +1,5 @@
 package com.example.boxes;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHolder> {
     private static final String LOGTAG = "BOXES:BoxViewAdapter";
 
-    private MainViewModel mViewModel;
+    private final MainViewModel mViewModel;
 
-    private int mOpenBoxImageIDs[] = {
+    private final int[] mOpenBoxImageIDs = {
             R.drawable.ic_lock_open_black_48dp_2tone,
             R.drawable.ic_looks_one_black_48dp_2tone,
             R.drawable.ic_looks_two_black_48dp_2tone,
@@ -26,10 +25,9 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
             R.drawable.ic_slideshow_black_48dp_2tone,
             R.drawable.ic_pages_black_48dp
     };
-    private int mBoxImageID = R.drawable.ic_redeem_black_48dp_2tone;
 
 
-    public BoxViewAdapter(MainViewModel viewModel, Activity activity) {
+    public BoxViewAdapter(MainViewModel viewModel) {
         mViewModel = viewModel;
         Log.d(LOGTAG, "CTOR");
     }
@@ -59,7 +57,7 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
                 imageView.setTranslationY(6);
             imageView.setScaleY(1);
         } else {
-            imageView.setImageResource(mBoxImageID);
+            imageView.setImageResource(R.drawable.ic_redeem_black_48dp_2tone);
             imageView.setTranslationY(0);
             imageView.setScaleY(1.2f);
         }
@@ -76,12 +74,6 @@ public class BoxViewAdapter extends RecyclerView.Adapter<BoxViewAdapter.ViewHold
             super(view);
 
             mContentView = (ImageView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            //return super.toString() + " '" + mContentView.getText() + "'";
-            return super.toString();
         }
     }
 }

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -57,9 +56,8 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
 
     private RecyclerView recyclerView;
-    private ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
-    private ImageView textViewBox;
-    private View layoutBox;
+    private final ValueAnimator animation = ValueAnimator.ofFloat(1.0f, 0.0f);
+    private ImageView imageViewBox;
 
 
     ///////////////////////////////////////////////////////////////
@@ -121,9 +119,8 @@ public class MainFragment extends Fragment {
         textViewMainOpen = activity.findViewById(R.id.textViewMainOpen);
         buttonMainOpen = activity.findViewById(R.id.buttonMainOpen);
 
-        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel, activity);
+        BoxViewAdapter adapter = new BoxViewAdapter(mViewModel);
         recyclerView = (RecyclerView) activity.findViewById(R.id.listBoxes);
-        //recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
@@ -197,8 +194,7 @@ public class MainFragment extends Fragment {
             activity.onButtonMainOpen(buttonMainOpen);
             return;
         }
-        textViewBox = holder.mContentView;
-        layoutBox = recyclerView.findContainingItemView(textViewBox);
+        imageViewBox = holder.mContentView;
 
         animation.setDuration(3000);
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -206,8 +202,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onAnimationUpdate(ValueAnimator updatedAnimation) {
                 float animatedValue = (float)updatedAnimation.getAnimatedValue();
-                textViewBox.setAlpha(animatedValue);
-                layoutBox.setAlpha(animatedValue);
+                imageViewBox.setAlpha(animatedValue);
             }
         });
         animation.addListener(new AnimatorListenerAdapter() {

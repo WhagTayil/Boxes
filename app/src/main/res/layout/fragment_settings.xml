@@ -14,7 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="Number of boxes"
+        android:text="@string/text_settings_num"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="15"
+        android:text="@string/text_settings_num_boxes"
         app:layout_constraintBottom_toBottomOf="@+id/textViewBoxesTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewBoxesTotal" />
@@ -206,7 +206,7 @@
             android:checked="true"
             android:gravity="center"
             android:lines="2"
-            android:text="Remove\nBoxes" />
+            android:text="@string/text_settings_remove" />
 
         <TextView
             android:id="@+id/textView2"
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:gravity="center"
-            android:text="Add\nBoxes"
+            android:text="@string/text_settings_add"
             android:textColor="@color/colorPrimaryText" />
     </LinearLayout>
 
@@ -237,7 +237,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="Timestep"
+        android:text="@string/text_settings_timestep_title"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -248,7 +248,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="2hrs"
+        android:text="@string/text_settings_timestep"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView4"
@@ -284,7 +284,7 @@
         android:shadowDx="4"
         android:shadowDy="2"
         android:shadowRadius="8"
-        android:text="Come on, push yourself.\nDo it for Natalie."
+        android:text="@string/text_settings_inspire"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
