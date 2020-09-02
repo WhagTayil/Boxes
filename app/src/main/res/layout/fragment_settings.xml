@@ -58,35 +58,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_one_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q2" />
+                android:text="@string/text_settings_Q2"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_two_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q3" />
+                android:text="@string/text_settings_Q3"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_3_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
         </TableRow>
 
         <TableRow
@@ -106,35 +111,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_4_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q5" />
+                android:text="@string/text_settings_Q5"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_5_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q6" />
+                android:text="@string/text_settings_Q6"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_looks_6_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
         </TableRow>
 
         <TableRow
@@ -154,35 +164,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_slideshow_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q8" />
+                android:text="@string/text_settings_Q8"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_pages_black_48dp"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/textViewQ9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="@string/text_settings_Q9" />
+                android:text="@string/text_settings_Q9"
+                android:layout_marginStart="8dp" />
 
             <ImageView
                 android:id="@+id/imageViewSettingsQ9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_lock_open_black_48dp_2tone"
-                app:tint="@color/colorPrimary" />
+                app:tint="@color/colorPrimary"
+                android:contentDescription="@null" />
         </TableRow>
 
     </TableLayout>
