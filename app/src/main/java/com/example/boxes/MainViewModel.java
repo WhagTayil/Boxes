@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainViewModel extends ViewModel /*implements Parcelable*/ {
@@ -229,12 +230,12 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
 
 
     private String getTimeString(Calendar calendar) {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.US);
         return formatter.format(calendar.getTime());
     }
 
     private String getDateString(Calendar calendar) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy", Locale.US);
         return formatter.format(calendar.getTime());
     }
 }

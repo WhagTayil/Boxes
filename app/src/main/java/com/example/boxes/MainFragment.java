@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 
 public class MainFragment extends Fragment {
 
@@ -81,7 +83,7 @@ public class MainFragment extends Fragment {
                     long minutes = deltaMillis / minutesInMilli;
                     deltaMillis = deltaMillis % minutesInMilli;
                     long seconds = deltaMillis / secondsInMilli;
-                    s = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                    s = String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, seconds);
 
                     handler.postDelayed(this, 500);
                 } else {
@@ -103,7 +105,7 @@ public class MainFragment extends Fragment {
 
 
     private void setStartDate() {
-        String s = mViewModel.getStartTime() + " on\n" + mViewModel.getStartDate();
+        String s = mViewModel.getStartTime() + getString(R.string.text_main_start_on) + mViewModel.getStartDate();
         textViewMainStart.setText(s);
     }
 
@@ -164,7 +166,6 @@ public class MainFragment extends Fragment {
                 buttonMainOpen.setOnClickListener(activity.onClickButtonMainRestart);
                 setStartDate();
                 break;
-
             case INFINITY:
                 textViewMainOpen.setText(R.string.text_main_infinity);
                 buttonMainOpen.setText(R.string.button_main_open_infinity);

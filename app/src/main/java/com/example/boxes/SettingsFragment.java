@@ -78,7 +78,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void setBoxStrings(int i) {
-        String s = mNumberOfBoxType[i] + "x";
+        String s = mNumberOfBoxType[i] + getString(R.string.text_settings_Q_symbol);
         textViewsNumberOfBoxType[i].setText(s);
 
         s = Integer.toString(mTotalBoxes);
@@ -88,9 +88,9 @@ public class SettingsFragment extends Fragment {
     private void setTimeStepText() {
         String s;
         if (mTimeStep == 1)
-            s = mTimeStep + "hr";
+            s = mTimeStep + getString(R.string.text_settings_timestep_unit);
         else
-            s = mTimeStep + "hrs";
+            s = mTimeStep + getString(R.string.text_settings_timestep_units);
         textViewTimeStep.setText(s);
     }
 
@@ -112,7 +112,7 @@ public class SettingsFragment extends Fragment {
         ImageView imageView;
         for (int i=0; i < 9; ++i) {
             textViewsNumberOfBoxType[i] = activity.findViewById(textViewNumIDs[i]);
-            s = mNumberOfBoxType[i] + "x";
+            s = mNumberOfBoxType[i] + getString(R.string.text_settings_Q_symbol);
             textViewsNumberOfBoxType[i].setText(s);
 
             imageView = activity.findViewById(buttonIDs[i]);
