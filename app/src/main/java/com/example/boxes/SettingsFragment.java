@@ -9,26 +9,30 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 
 public class SettingsFragment extends Fragment {
 
-    //private static final String LOGTAG = "BOXES:SettingsFragment";
+    private static final String LOGTAG = "BOXES:SettingsFragment";
 
     private MainViewModel mViewModel;
 
-    private int mTotalBoxes = 15;
-    private final int[] mNumberOfBoxType = { 3, 3, 2, 2, 1, 1, 1, 1, 1 };
-    private boolean mAddMode = true;
+    private int mTotalBoxes;
+    private int[] mNumberOfBoxType;
     private int mTimeStep;
-
+    private int mTimeStepUnit;
 
     private TextView textViewTotalBoxes;
     private static final int[] textViewNumIDs = {
@@ -42,7 +46,10 @@ public class SettingsFragment extends Fragment {
             R.id.imageViewSettingsQ4, R.id.imageViewSettingsQ5, R.id.imageViewSettingsQ6,
             R.id.imageViewSettingsQ7, R.id.imageViewSettingsQ8, R.id.imageViewSettingsQ9
     };
+    SwitchCompat switchCompatAddMode;
+
     private TextView textViewTimeStep;
+    SeekBar seekBar;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -62,10 +69,10 @@ public class SettingsFragment extends Fragment {
 
 
     private void readViewModel() {
-        for (int i = 0; i < 9; ++i)
-            mNumberOfBoxType[i] = 0;
-
         mTotalBoxes = mViewModel.getNumBoxes();
+        mNumberOfBoxType = new int[9];
+        for (int i = 0; i < 9; ++i) mNumberOfBoxType[i] = 0;
+
         int boxContents;
         for (int i = 0; i < mTotalBoxes; ++i) {
             boxContents = mViewModel.peekBox(i) - 1;
@@ -73,7 +80,23 @@ public class SettingsFragment extends Fragment {
             mNumberOfBoxType[boxContents] += 1;
         }
 
-        mTimeStep = mViewModel.getTimeStepHours();
+        mTimeStep = mViewModel.getChastityTimeDuration();
+        int timeUnit = mViewModel.getChastityTimeUnit();
+        switch(timeUnit) {
+            case Calendar.DATE:
+                mTimeStepUnit = 0;
+                break;
+            case Calendar.HOUR:
+                mTimeStepUnit = 1;
+                break;
+            case Calendar.MINUTE:
+                mTimeStep = (mTimeStep / 5);
+            case Calendar.SECOND:
+                mTimeStepUnit = 2;
+                break;
+        }
+
+        Log.d(LOGTAG, "readViewModel() time = " + mTimeStep + " in unit no." + mTimeStepUnit);
     }
 
 
@@ -86,14 +109,26 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setTimeStepText() {
-        String s;
-        if (mTimeStep == 1)
-            s = mTimeStep + getString(R.string.text_settings_timestep_unit);
-        else
-            s = mTimeStep + getString(R.string.text_settings_timestep_units);
+        String s = null;
+        switch (mTimeStepUnit) {
+            case 0:         // DATE
+                if (mTimeStep == 1)
+                    s = mTimeStep + getString(R.string.text_settings_time_unit_day);
+                else
+                    s = mTimeStep + getString(R.string.text_settings_time_unit_days);
+                break;
+            case 1:         // HOUR
+                if (mTimeStep == 1)
+                    s = mTimeStep + getString(R.string.text_settings_time_unit_hour);
+                else
+                    s = mTimeStep + getString(R.string.text_settings_time_unit_hours);
+                break;
+            case 2:         // MINUTE
+                s = mTimeStep + getString(R.string.text_settings_time_unit_minutes);
+                break;
+        }
         textViewTimeStep.setText(s);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -102,11 +137,10 @@ public class SettingsFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         readViewModel();
 
-        String s;
         FragmentActivity activity = getActivity();
 
         textViewTotalBoxes = activity.findViewById(R.id.textViewNumBoxes);
-        s = Integer.toString(mTotalBoxes);
+        String s = Integer.toString(mTotalBoxes);
         textViewTotalBoxes.setText(s);
 
         ImageView imageView;
@@ -119,16 +153,20 @@ public class SettingsFragment extends Fragment {
             imageView.setOnClickListener(onClickButton);
         }
 
-        SwitchCompat switchCompat = activity.findViewById(R.id.switchAddMode);
-        switchCompat.setChecked(true);
-        mAddMode = true;
-        switchCompat.setOnClickListener(onClickSwitch);
+        switchCompatAddMode = activity.findViewById(R.id.switchAddMode);
+        switchCompatAddMode.setChecked(true);
 
-        SeekBar seekBar = activity.findViewById(R.id.seekBarTimeStep);
+        textViewTimeStep = activity.findViewById(R.id.textViewTimeStep);
+        seekBar = activity.findViewById(R.id.seekBarTimeStep);
         seekBar.setProgress(mTimeStep - 1);
         seekBar.setOnSeekBarChangeListener(onChangeSeekBar);
-        textViewTimeStep = activity.findViewById(R.id.textViewTimeStep);
+        if (mTimeStepUnit == 2)
+            mTimeStep = mTimeStep * 5;
         setTimeStepText();
+
+        Spinner spinner = (Spinner) activity.findViewById(R.id.spinnerTimeStep);
+        spinner.setSelection(mTimeStepUnit);
+        spinner.setOnItemSelectedListener(onTimeStepUnitSelected);
 
         Button button = activity.findViewById(R.id.buttonSettingsOK);
         button.setOnClickListener(onClickOK);
@@ -138,18 +176,16 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
             mTimeStep = i + 1;
+            if (mTimeStepUnit == 2)
+                mTimeStep *= 5;
             setTimeStepText();
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
+        public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     };
 
     public final View.OnClickListener onClickButton = new View.OnClickListener() {
@@ -164,7 +200,8 @@ public class SettingsFragment extends Fragment {
                 break;
         }
 
-        if (mAddMode) {
+        //if (mAddMode) {
+        if (switchCompatAddMode.isChecked()) {
             // ToDo: Lower max total boxes? (81)
             if (mNumberOfBoxType[i] < 9) {
                 ++mNumberOfBoxType[i];
@@ -185,15 +222,6 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public final View.OnClickListener onClickSwitch = new View.OnClickListener() {
-        public void onClick(View v) {
-            onSwitch(v);
-        }
-    };
-    public void onSwitch(View v) {
-        mAddMode = !mAddMode;
-    }
-
     public final View.OnClickListener onClickOK = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -201,10 +229,41 @@ public class SettingsFragment extends Fragment {
         }
     };
     public void onButtonOK(View v) {
+        Log.d(LOGTAG, "onButtonOK() time = " + mTimeStep + " in unit no." + mTimeStepUnit);
+
         mViewModel.setBoxes(mTotalBoxes, mNumberOfBoxType);
-        mViewModel.setTimeStep(mTimeStep);
+
+        int timeUnit = Calendar.DATE;
+        if (mTimeStepUnit == 1)
+            timeUnit = Calendar.HOUR;
+        else if (mTimeStepUnit == 2)
+            timeUnit = Calendar.MINUTE;
+
+        mViewModel.setChastityTime(timeUnit, mTimeStep);
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.onButtonSettingsOK(v);
     }
+
+    public class SpinnerListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int pos, long id) {
+            Log.d(LOGTAG, "OnItemSelectedListened() " + mTimeStepUnit + " to " + pos);
+
+            if (mTimeStepUnit == 2)
+                mTimeStep = mTimeStep / 5;
+            if (pos == 2)
+                mTimeStep = mTimeStep * 5;
+
+            mTimeStepUnit = pos;
+            setTimeStepText();
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            // Another interface callback
+            Log.d(LOGTAG, "OnNothingSelectedListened()");
+        }
+    }
+    SpinnerListener onTimeStepUnitSelected = new SpinnerListener();
 }

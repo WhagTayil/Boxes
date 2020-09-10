@@ -52,9 +52,28 @@
     <string name="text_settings_num_boxes">15</string>
     <string name="text_settings_remove">Remove\nBoxes</string>
     <string name="text_settings_add">Add\nBoxes</string>
-    <string name="text_settings_timestep_title">Timestep</string>
-    <string name="text_settings_timestep_unit">hr</string>
-    <string name="text_settings_timestep_units">hrs</string>
+
     <string name="text_settings_inspire">Come on, push yourself.\nDo it for Natalie.</string>
+
+
+
+    <string name="text_settings_timestep_title">Time between boxes</string>
+
+    <string name="text_settings_time_unit_day">\u0020day</string>
+    <string name="text_settings_time_unit_days">\u0020days</string>
+    <string name="text_settings_time_unit_hour">\u0020hr</string>
+    <string name="text_settings_time_unit_hours">\u0020hrs</string>
+    <string name="text_settings_time_unit_minutes">\u0020mins</string>
+
+    <string name="text_time_units">Measure time in</string>
+    <string-array name="time_units_array">
+        <item>Days</item>
+        <item>Hours</item>
+        <item>Minutes</item>
+    </string-array>
+
+
+
+
 
 </resources>

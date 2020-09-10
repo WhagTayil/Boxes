@@ -13,10 +13,10 @@ import java.util.Locale;
 import java.util.Random;
 
 public class MainViewModel extends ViewModel /*implements Parcelable*/ {
-    private static int NUM_SHUFFLES = 6;
 
-    private static int chastityTimeUnit = Calendar.SECOND;      // Calendar.DATE or Calendar.SECOND
-    private static int chastityTimeDuration = 10;              //      1        or     30
+    // .DATE (5) .HOUR (10) .MINUTE (12) .SECOND (13)
+    private static int chastityTimeUnit = Calendar.SECOND;
+    private static int chastityTimeDuration = 10;
 
     private static int[] boxes = {3, 1, 3, 3, 1, 2, 2, 1, 2, 3, 2, 0, 4, 0, 1};
     private static Calendar nextBoxDate = Calendar.getInstance();
@@ -101,6 +101,7 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
     private void setNextBoxDate(int numUnits) {
         nextBoxDate = Calendar.getInstance();
         nextBoxDate.add(chastityTimeUnit, chastityTimeDuration * numUnits);
+        //nextBoxDate.add(Calendar.SECOND, 10 * numUnits);
     }
     private void setNextBoxDate() { setNextBoxDate(1); }
 
@@ -125,32 +126,17 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
         }
     }
 
-    public void setTimeStep(int numHours) {
-        if (numHours == 24) {
-            chastityTimeUnit = Calendar.DATE;
-            chastityTimeDuration = 1;
-        } else {
-            chastityTimeUnit = Calendar.HOUR;
-            chastityTimeDuration = numHours;
-        }
-
-        if (BuildConfig.DEBUG)
-            chastityTimeUnit = Calendar.SECOND;
-    }
-
 
     public void startGame() {
         currentState = GameState.PLAY;
 
         // Shuffle boxes
-        for (int j = 0; j < NUM_SHUFFLES; ++j) {
-            for (int i = boxes.length - 1; i > 0; i--) {
-                int index = rnd.nextInt(i + 1);
-                // Simple swap
-                int a = boxes[index];
-                boxes[index] = boxes[i];
-                boxes[i] = a;
-            }
+        for (int i = boxes.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            int a = boxes[index];
+            boxes[index] = boxes[i];
+            boxes[i] = a;
         }
         numBoxesOpen = 0;
 
@@ -191,12 +177,12 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
         Calendar now = Calendar.getInstance();
         return nextBoxDate.getTimeInMillis() - now.getTimeInMillis();
     }
-    public int getTimeStepHours() {
-        int t = 1;
-        if (chastityTimeUnit == Calendar.DATE)
-            t = 24;
 
-        return t * chastityTimeDuration;
+    public int getChastityTimeDuration() { return chastityTimeDuration; }
+    public int getChastityTimeUnit() { return chastityTimeUnit; }
+    public void setChastityTime(int unit, int duration) {
+        chastityTimeUnit = unit;
+        chastityTimeDuration = duration;
     }
 
     public int getNumBoxes() {
@@ -223,7 +209,7 @@ public class MainViewModel extends ViewModel /*implements Parcelable*/ {
             Log.v(LOGTAG, s.toString());
             Log.v(LOGTAG, "Start - " + getStartTime() + " " + getStartDate());
             Log.v(LOGTAG, " Next - " + getTimeString(nextBoxDate) + " " + getDateString(nextBoxDate));
-            Log.v(LOGTAG, "delta - " + chastityTimeDuration + " " +  chastityTimeUnit);
+            Log.v(LOGTAG, "delta - " + chastityTimeDuration + " [5/10/12/13]=" + chastityTimeUnit);
             Log.v(LOGTAG, "State - " + currentState.name());
         }
     }
